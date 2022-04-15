@@ -1,0 +1,68 @@
+StorageTitle: "&ePet Storage"
+ExpRecieve: "Your pet received #Exp# exp"
+NoPermission: "&cYou don't have permission for this command"
+PetDied: "&8Your pet #pet_name# died"
+Teleport: "&8You teleported your pet"
+Despawn: "You despawned your pet"
+Spawned: "&e You spawned your pet"
+InRespawnCooldown: "pet reborning time: #remain_time#"
+SwtichedToAttack: "Your pet will attack whatever you attack"
+SwitchedToDefense: "Your pet will defend you"
+SwitchedToFollow: "Your pet will follow you"
+InventoryFull: "&cYou inventory is full"
+Active: "&eCurrent Pet , Click again to despawn it"
+Dead: "Your pet died"
+StorageFull: "&cYour pet storage is full, can't put more pets."
+MaxLevel: "&eMax Level"
+PetInventoryTitle: "&ePet Inventory"
+DataLoading: "&eYour data is still loading"
+PutToStorage: "You placed your pet #pet_name# to storage"
+CantRide: "You cant ride this pet"
+
+
+Help:
+  - "&7----------------------------------------------------"
+  - "&6&lMythicPet"
+  - ""
+  - "/MythicPet help - get this page"
+  - "/MythicPet mode <mode> - change pet's AI mode"
+  - "/MythicPet list - show all available pets"
+  - "/MythicPet exp give <player> <amount> - gives exp to the players current pet"
+  - "/MythicPet open - open storage"
+  - "/MythicPet givepet <player> <petID> - give somebody a pet"
+  - "&7----------------------------------------------------"
+SystemIcon:
+  AttackMode:
+    Material: DIAMOND_SWORD
+    Display: "&aATTACK MODE"
+    Lore:
+      - '&7let your pet ATTACKS Whatever attacks you'
+  DefenseMode:
+    Material: DIAMOND_CHESTPLATE
+    Display: "&3DEFENSE MODE"
+    Lore:
+      - '&7Let your pet defend you'
+  FollowMode:
+    Material: DIAMOND_BOOTS
+    Display: "&eFollow Mode"
+    Lore:
+      - '&7Let your pet follow you'
+  Teleport:
+    Material: ENDER_PEARL
+    Display: "&5Teleport your pet to you"
+  ToggleOnEdit:
+    Material: GRAY_DYE
+    Display: "&7Toggle on edit mode"
+  ToggleOffEdit:
+    Material: LIME_DYE
+    Display: "&aToggle off edit mode"
+  NextPage:
+    Material: ARROW
+    Display: "&7Next Page"
+  PreviousPage:
+    Material: ARROW
+    Display: "&7Previous Page"
+  BackGround:
+    Material: GRAY_STAINED_GLASS_PANE
+    Display: ""
+

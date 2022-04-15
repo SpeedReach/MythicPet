@@ -1,0 +1,8 @@
+#Whether the pet should heal to full health on level up
+HealOnlevelUp: true
+#Pages of the Pet Storage
+DefaultPages: 1
+#Whether the pet should take damage on Follow Mode
+FollowModeDamage: false
+#Rows of the PetInventory
+InventoryRows: 3

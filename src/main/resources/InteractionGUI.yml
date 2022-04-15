@@ -1,0 +1,14 @@
+Enabled: true
+Shift: true
+GuiName: "&aPet Interact GUI"
+Mount:
+  Material: SADDLE
+  Display: "&eClick to ride"
+  Lore:
+    - "Click me"
+BackPack:
+  Material: CHEST
+  Display: "&ePet BackPack"
+Despawn:
+  Material: BARRIER
+  Display: "&cDespawn"

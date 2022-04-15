@@ -1,0 +1,14 @@
+SkeletonKing:
+  MythicMob: "SkeletonKing"
+  Display: "&6SkeletonKing"
+  RespawnTime: 100
+  MaxLevel: 50
+  Level-RequireMent: 10*#level#+#level#*#level#*4
+  Icon:
+    Material: "player_head"
+    Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI4MTkxYzMyZjFmM2UxMWNhY2I3ZTY4YTI1ZTBkOTRkODBkY2Y5ODcwYjM0ZjUxNmRiYmU1YTc5Mjk1Mjc1MiJ9fX0=
+    Display: "&7[Lv #level#] &6SkeletonKing"
+    Lore:
+      - '&6&l Legendary Pet'
+      - '&7 Experience: #exp_bar# &7#current_exp# / #nextlevel_exp#'
+      - '&7 Health: #health_bar# &7#health#/#Math(480,20)#'

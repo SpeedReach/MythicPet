@@ -1,0 +1,20 @@
+name: MythicPet
+version: ${project.version}
+main: net.brian.mythicpet.MythicPet
+api-version: 1.13
+author: Sleep_AllDay
+depend:
+  - MythicMobs
+  - PlayerDataSync
+softdepend:
+  - WorldGuard
+  - MMOItems
+  - MythicLib
+  - LibsDisguises
+  - ModelEngine
+  - PlaceholderAPI
+
+commands:
+  mythicpet:
+    usage: /<command>
+    aliases: [mp]
