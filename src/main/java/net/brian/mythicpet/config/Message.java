@@ -2,15 +2,10 @@ package net.brian.mythicpet.config;
 
 import net.brian.mythicpet.MythicPet;
 import net.brian.mythicpet.util.IridiumColorAPI;
-import net.royawesome.jlibnoise.module.combiner.Max;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Message {
     public static String StorageTitle;
@@ -36,7 +31,7 @@ public class Message {
     public static String PutToStorage;
     public static String CantRide;
 
-    public static void readConfig(){
+    public static void reload(){
         File file = new File(MythicPet.inst().getDataFolder(), "message.yml");
         if(!file.exists()){
             MythicPet.inst().saveResource("message.yml",false);
@@ -66,12 +61,6 @@ public class Message {
         CantRide = IridiumColorAPI.process(config.getString("CantRide","You can't ride this pet"));
     }
 
-    public Message(){
-        readConfig();
-    }
 
 
-    public static void reload(){
-        readConfig();
-    }
 }

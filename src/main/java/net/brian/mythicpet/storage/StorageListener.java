@@ -82,12 +82,12 @@ public class StorageListener implements Listener {
                             }
                         }
                         else if(event.isLeftClick()){
-                            data.getCurrentPet().ifPresent(pet -> {
+                            data.getCurrentPet().ifPresentOrElse(pet -> {
                                 data.despawnPet();
                                 if(!pet.equals(clickedPet)){
                                     data.spawnPet(clicked);
                                 }
-                            });
+                            },()-> data.spawnPet(clicked));
                             event.getWhoClicked().closeInventory();
                         }
                     }

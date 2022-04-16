@@ -15,7 +15,7 @@ public class CommandManager implements TabExecutor {
     private final List<String> available = new ArrayList<>();
 
     //Sub Commands
-    public static String main = "MythicPet";
+    public static String main = "mythicpet";
 
     public CommandManager(MythicPet plugin){
         plugin.getCommand(main).setExecutor(this);

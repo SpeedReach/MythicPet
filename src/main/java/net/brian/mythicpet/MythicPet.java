@@ -20,7 +20,6 @@ import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.Settings;
 import net.brian.mythicpet.config.SystemIcon;
 import net.brian.mythicpet.listener.*;
-import net.brian.mythicpet.motd.PlayerJoin;
 import net.brian.mythicpet.pet.PetDirectory;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import net.brian.mythicpet.scheduler.PetMovement;
@@ -115,7 +114,6 @@ public final class MythicPet extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OwnerAction(),this);
         getServer().getPluginManager().registerEvents(new PetActions(),this);
         getServer().getPluginManager().registerEvents(new BlockDamage(),this);
-        getServer().getPluginManager().registerEvents(new PlayerJoin(),this);
         getServer().getPluginManager().registerEvents(new SignalItem(),this);
         getServer().getPluginManager().registerEvents(new RedeemPet(),this);
         getServer().getPluginManager().registerEvents(new IgnoreProjectile(),this);
@@ -127,7 +125,7 @@ public final class MythicPet extends JavaPlugin {
     }
 
     public static void loadConfigurations(){
-        new Message();
+        Message.reload();
         settings = new Settings();
         systemIcon = new SystemIcon();
         interactionGUIConfig = new InteractionGUIConfig();

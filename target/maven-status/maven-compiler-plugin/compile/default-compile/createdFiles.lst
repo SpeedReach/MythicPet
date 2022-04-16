@@ -21,7 +21,6 @@ net\brian\mythicpet\compatible\pandeloot\PandeLootDamageRegister.class
 net\brian\mythicpet\util\pattern\GradientPattern.class
 net\brian\mythicpet\storage\StorageManager.class
 net\brian\mythicpet\pet\Pet.class
-net\brian\mythicpet\motd\PlayerJoin.class
 net\brian\mythicpet\util\ItemStackBase64.class
 net\brian\mythicpet\storage\StorageListener.class
 net\brian\mythicpet\compatible\mmoitems\listener\MMOItemsHealPet.class
