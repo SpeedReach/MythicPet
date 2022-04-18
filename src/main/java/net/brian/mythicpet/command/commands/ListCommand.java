@@ -9,7 +9,7 @@ public class ListCommand extends SubCommand{
     public void onCommand(CommandSender sender, String[] args) {
         if(sender.hasPermission("mythicpet.admin")){
             for(String key: PetDirectory.getModels()){
-                sender.sendMessage(key+" : "+ PetDirectory.getModel(key).display);
+                sender.sendMessage(key+" : "+ PetDirectory.getModel(key).getDisplayName());
             }
         }
         else{

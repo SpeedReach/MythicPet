@@ -6,7 +6,9 @@ import io.lumine.xikage.mythicmobs.drops.Drop;
 import io.lumine.xikage.mythicmobs.drops.DropMetadata;
 import io.lumine.xikage.mythicmobs.drops.IItemDrop;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
-import net.brian.mythicpet.pet.Pet;
+import net.brian.mythicpet.api.Pet;
+import net.brian.mythicpet.pet.PetDirectory;
+import net.brian.mythicpet.pet.PetImpl;
 
 
 public class PetDrop extends Drop implements IItemDrop {
@@ -18,7 +20,7 @@ public class PetDrop extends Drop implements IItemDrop {
 
     @Override
     public AbstractItemStack getDrop(DropMetadata dropMetadata) {
-        Pet pet = new Pet(type);
-        return BukkitAdapter.adapt(pet.generateIcon(null));
+        Pet pet = new PetImpl(PetDirectory.getModel(type));
+        return BukkitAdapter.adapt(pet.getIcon(null));
     }
 }

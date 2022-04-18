@@ -1,15 +1,11 @@
 package net.brian.mythicpet.storage;
 
-import com.ticxo.modelengine.api.ModelEngineAPI;
-import com.ticxo.modelengine.api.model.ModeledEntity;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.MountPetUtil;
-import org.bukkit.entity.Entity;
+import net.brian.mythicpet.utils.MountPetUtil;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -42,13 +38,13 @@ public class InteractionGUIService implements Listener {
             PlayerPetProfile.get(event.getWhoClicked().getUniqueId()).ifPresent(petProfile->{
                 petProfile.getCurrentPet().ifPresent(pet -> {
                     if(slot == 37){
-                        if(pet.getType().isMountable()){
-                            MountPetUtil.mountPet((Player) event.getWhoClicked(),pet.getPetEntity(),pet.getType().getMountType());
+                        if(pet.getPetType().isMountable()){
+                            MountPetUtil.mountPet((Player) event.getWhoClicked(),pet.getPetEntity().get(),pet.getPetType().getMountType());
                         }
                         else event.getWhoClicked().sendMessage(Message.CantRide);
                     }
                     else if(slot == 40){
-                        if(!MythicPet.over17){
+                        if(!MythicPets.over17){
                             event.getWhoClicked().openInventory(petProfile.getPetInventory());
                         }
                         else{
@@ -66,7 +62,7 @@ public class InteractionGUIService implements Listener {
     }
 
     public void open(HumanEntity player){
-        Inventory inv = MythicPet.getInteractionGUIConfig().createGUI(player);
+        Inventory inv = MythicPets.getInteractionGUIConfig().createGUI(player);
         player.openInventory(inv);
         viewers.add(player);
     }

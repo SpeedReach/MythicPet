@@ -1,9 +1,10 @@
 package net.brian.mythicpet.command.commands;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.config.Message;
-import net.brian.mythicpet.pet.Pet;
 import net.brian.mythicpet.pet.PetDirectory;
+import net.brian.mythicpet.pet.PetImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public class GivePet extends SubCommand{
     /**
      * /mythicpet givepet @player @pet<br>
      */
-    MythicPet plugin = MythicPet.inst();
+    MythicPets plugin = MythicPets.inst();
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
@@ -26,11 +27,11 @@ public class GivePet extends SubCommand{
         if(args.length>2){
             if(PetDirectory.getModels().contains(args[2])){
                 Player player = Bukkit.getPlayer(args[1]);
-                Pet pet = new Pet(args[2]);
+                Pet pet = new PetImpl(PetDirectory.getModel(args[2]));
                 if(args.length> 3){
                     pet.setLevel(Integer.parseInt(args[3]));
                 }
-                player.getInventory().addItem((new Pet(args[2]).generateIcon(null)));
+                player.getInventory().addItem(pet.getIcon(player));
             }
         }
     }

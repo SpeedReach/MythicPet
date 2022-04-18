@@ -1,9 +1,9 @@
 package net.brian.mythicpet.compatible.mythicmobs.legacy;
 
+
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
-import io.lumine.xikage.mythicmobs.skills.placeholders.PlaceholderMeta;
 import net.brian.mythicpet.compatible.mythicmobs.MythicUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -46,10 +46,21 @@ public class LegacyMythicUtil implements MythicUtil {
     }
 
     @Override
-    public double getMobDefaultHealth(String id) {
+    public double getMobDefaultHealth(String id,int level) {
         MythicMob mythicMob = MythicMobs.inst().getAPIHelper().getMythicMob(id);
         if(mythicMob != null){
-            return mythicMob.getHealth().get();
+
+            double health = mythicMob.getHealth().get();
+            if (mythicMob.getPerLevelHealth() > 0.0D) {
+                if (level > 1.0D) {
+                    health += mythicMob.getPerLevelHealth() * (level - 1);
+                }
+            } else if (MythicMobs.inst().getConfiguration().getScalingEquationHealth() != null) {
+                health = MythicMobs.inst().getConfiguration().getScalingEquationHealth().setVariable("v", health).setVariable("l",level).evaluate();
+            }
+
+            return health;
+
         }
         return 0;
     }
@@ -68,6 +79,8 @@ public class LegacyMythicUtil implements MythicUtil {
     public Location findSafeLocation(Location location, double height) {
         return null;
     }
+
+
 
 
 }

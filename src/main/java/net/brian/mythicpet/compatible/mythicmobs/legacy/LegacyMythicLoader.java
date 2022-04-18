@@ -10,7 +10,8 @@ import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.SkillTargeter;
 import io.lumine.xikage.mythicmobs.skills.placeholders.Placeholder;
 import io.lumine.xikage.mythicmobs.skills.placeholders.PlaceholderManager;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.compatible.mythicmobs.legacy.condition.HasTarget;
 import net.brian.mythicpet.compatible.mythicmobs.legacy.condition.IsPetCondition;
 import net.brian.mythicpet.compatible.mythicmobs.legacy.condition.PetModeCondition;
@@ -18,10 +19,9 @@ import net.brian.mythicpet.compatible.mythicmobs.legacy.drops.PetDrop;
 import net.brian.mythicpet.compatible.mythicmobs.legacy.drops.PetExperienceDrop;
 import net.brian.mythicpet.compatible.mythicmobs.legacy.target.PetTarget;
 import net.brian.mythicpet.compatible.mythicmobs.legacy.target.PetTargets;
-import net.brian.mythicpet.util.IridiumColorAPI;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.utils.pattern.IridiumColorAPI;
+import net.brian.mythicpet.utils.PetUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,7 +30,7 @@ import java.util.Optional;
 
 public class LegacyMythicLoader implements Listener {
 
-    public LegacyMythicLoader(MythicPet plugin){
+    public LegacyMythicLoader(MythicPets plugin){
         plugin.getServer().getPluginManager().registerEvents(this,plugin);
         loadVariable();
     }
@@ -85,17 +85,17 @@ public class LegacyMythicLoader implements Listener {
 
     @EventHandler
     public void onReloadEvent(MythicReloadedEvent event){
-        Bukkit.getScheduler().runTaskLater(MythicPet.inst(),()->{
+        Bukkit.getScheduler().runTaskLater(MythicPets.inst(),()->{
             Bukkit.getOnlinePlayers().forEach(player -> {
-                MythicPet.getPlayer(player.getUniqueId()).ifPresent(profile -> {
+                MythicPets.getPlayer(player.getUniqueId()).ifPresent(profile -> {
                     if(profile.hasActive()){
-                        profile.getCurrentPet().ifPresent(pet -> {
-                            Entity entity = pet.getPetEntity();
-                            String name = entity.getCustomName();
-                            if(name != null){
-                                entity.setCustomName(IridiumColorAPI.process(entity.getCustomName().replace("<mythicpet.owner>",player.getName())));
-                            }
-                        });
+                        profile.getCurrentPet().flatMap(Pet::getPetEntity)
+                                .ifPresent(entity -> {
+                                    String name = entity.getCustomName();
+                                    if(name != null){
+                                        entity.setCustomName(IridiumColorAPI.process(entity.getCustomName().replace("<mythicpet.owner>",player.getName())));
+                                    }
+                                });
                     }
                 });
             });

@@ -7,9 +7,8 @@ import io.lumine.mythic.api.skills.SkillMetadata;
 import io.lumine.mythic.bukkit.BukkitAdapter;
 import io.lumine.mythic.core.skills.SkillExecutor;
 import io.lumine.mythic.core.skills.targeters.IEntitySelector;
-import net.brian.mythicpet.pet.PetDirectory;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.utils.PetUtils;
 
 import java.util.*;
 

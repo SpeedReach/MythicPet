@@ -1,13 +1,12 @@
 package net.brian.mythicpet.config;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import javax.swing.*;
 import java.util.UUID;
 
 public class Settings {
@@ -24,9 +23,9 @@ public class Settings {
     private boolean inventoryEnabled = false;
 
     public void setUp(){
-        MythicPet.inst().saveDefaultConfig();
-        MythicPet.inst().reloadConfig();
-        FileConfiguration config =MythicPet.inst().getConfig();
+        MythicPets.inst().saveDefaultConfig();
+        MythicPets.inst().reloadConfig();
+        FileConfiguration config = MythicPets.inst().getConfig();
         HealOnlevelUp = config.getBoolean("HealOnlevelUp",true);
         DefaultPages = config.getInt("DefaultPages",1);
         Mysql = config.getBoolean("Mysql",false);
@@ -38,7 +37,7 @@ public class Settings {
 
     public Inventory createPetInventory(UUID uuid){
         String name = Message.PetInventoryTitle;
-        if(MythicPet.placeHolderAPI){
+        if(MythicPets.placeHolderAPI){
             Player player = Bukkit.getPlayer(uuid);
             if(player != null){
                 name = PlaceholderAPI.setPlaceholders(player,name);

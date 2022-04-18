@@ -1,7 +1,6 @@
 package net.brian.mythicpet.compatible.pandeloot;
 
-import net.brian.mythicpet.pet.PetDirectory;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.utils.PetUtils;
 import net.seyarada.pandeloot.damage.DamageTracker;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

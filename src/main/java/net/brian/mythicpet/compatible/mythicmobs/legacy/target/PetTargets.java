@@ -7,9 +7,8 @@ import io.lumine.xikage.mythicmobs.skills.SkillCaster;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import io.lumine.xikage.mythicmobs.skills.targeters.IEntitySelector;
 import io.lumine.xikage.mythicmobs.util.annotations.MythicTargeter;
-import net.brian.mythicpet.MythicPet;
-import net.brian.mythicpet.pet.PetDirectory;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.utils.PetUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -39,11 +38,11 @@ public class PetTargets extends IEntitySelector {
         Location loc = BukkitAdapter.adapt(am.getLocation());
         List<Entity> entityList = am.getEntity().getBukkitEntity().getNearbyEntities(r,r,r);
         return entityList.stream().filter(entity -> {
-           if(MythicPet.worldGuard){
-               if(MythicPet.inst().getWorldGuardSupport().petCanHitPet(loc)){
+           if(MythicPets.worldGuard){
+               if(MythicPets.inst().getWorldGuardSupport().petCanHitPet(loc)){
                   if(PetUtils.isPet(entity)) return false;
                }
-               if(MythicPet.inst().getWorldGuardSupport().petCanHitPlayer(loc)){
+               if(MythicPets.inst().getWorldGuardSupport().petCanHitPlayer(loc)){
                    if(PetUtils.isPet(entity)) return false;
                }
            }

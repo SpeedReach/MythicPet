@@ -1,6 +1,6 @@
 package net.brian.mythicpet.command.commands;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Message;
 import org.bukkit.command.CommandSender;
 
@@ -12,7 +12,7 @@ public class Reload extends SubCommand{
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         if(sender.hasPermission("mythicpet.admin")){
-            MythicPet.reload();
+            MythicPets.reload();
             sender.sendMessage("Config reloaded");
             return;
         }

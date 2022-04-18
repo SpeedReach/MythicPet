@@ -1,7 +1,6 @@
 package net.brian.mythicpet.event;
 
-import net.brian.mythicpet.pet.Pet;
-import net.brian.mythicpet.player.PlayerPetProfile;
+import net.brian.mythicpet.api.Pet;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

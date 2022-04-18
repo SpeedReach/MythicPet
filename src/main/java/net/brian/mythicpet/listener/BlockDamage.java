@@ -4,12 +4,11 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Settings;
-import net.brian.mythicpet.pet.PetDirectory;
 import net.brian.mythicpet.player.Mode;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.utils.PetUtils;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +20,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.util.UUID;
 
 public class BlockDamage implements Listener {
-    MythicPet plugin = MythicPet.inst();
+    MythicPets plugin = MythicPets.inst();
 
     /**
      *Blocks Damage when a pet is hurt
@@ -36,25 +35,13 @@ public class BlockDamage implements Listener {
                     }
                 });
             }
-            if(MythicPet.worldGuard){
+            if(MythicPets.worldGuard){
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                 ApplicableRegionSet set = container.createQuery().getApplicableRegions(BukkitAdapter.adapt(event.getEntity().getLocation()));
                 if(!set.testState(null,plugin.worldGuardFlag.pet_hurt)){
                     event.setCancelled(true);
                 }
             }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
-    public void onPetHealthChange(EntityDamageEvent event){
-        if(PetUtils.isPet(event.getEntity())){
-            LivingEntity entity = (LivingEntity) event.getEntity();
-            double health = Math.round((entity.getHealth() - event.getFinalDamage())*10)/10.0;
-            if(health < 0) health = 0.0;
-            double finalHealth = health;
-            PetUtils.getOwnerProfile(event.getEntity()).flatMap(PlayerPetProfile::getCurrentPet)
-                    .ifPresent(pet -> pet.health = finalHealth);
         }
     }
 
@@ -68,7 +55,7 @@ public class BlockDamage implements Listener {
                     event.setCancelled(true);
                     return;
                 }
-                if(MythicPet.worldGuard){
+                if(MythicPets.worldGuard){
                     RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                     ApplicableRegionSet set = container.createQuery().getApplicableRegions(BukkitAdapter.adapt(event.getEntity().getLocation()));
                     if(!set.testState(null,plugin.worldGuardFlag.pet_damaged_by_player)){
@@ -78,7 +65,7 @@ public class BlockDamage implements Listener {
             }
         }
         if(PetUtils.isPet(event.getDamager())){
-            if(MythicPet.worldGuard){
+            if(MythicPets.worldGuard){
                 if(!PetUtils.isPet(event.getEntity())) return;
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                 ApplicableRegionSet set = container.createQuery().getApplicableRegions(BukkitAdapter.adapt(event.getEntity().getLocation()));
@@ -92,7 +79,7 @@ public class BlockDamage implements Listener {
 
     @EventHandler
     public void petDamagePlayer(EntityDamageByEntityEvent event){
-        if(!MythicPet.worldGuard) return;
+        if(!MythicPets.worldGuard) return;
         if(event.getEntity() instanceof Player){
             if(PetUtils.isPet(event.getDamager())){
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();

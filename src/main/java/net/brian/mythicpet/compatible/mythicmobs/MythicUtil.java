@@ -20,7 +20,7 @@ public interface MythicUtil {
 
     boolean mythicmobFound(String id);
 
-    double getMobDefaultHealth(String id);
+    double getMobDefaultHealth(String id,int level);
 
     void setMobOwner(Entity entity,UUID uuid);
 
@@ -32,6 +32,8 @@ public interface MythicUtil {
     static Optional<Entity> spawn(String id, Location location, double level){
         return instance[0].spawnMob(id,location,level);
     }
+
+
 
     static double getLevel(Entity entity){
         return instance[0].getMobLevel(entity);
@@ -45,8 +47,8 @@ public interface MythicUtil {
         return instance[0].mythicmobFound(id);
     }
 
-    static double getDefaultHealth(String id){
-        return instance[0].getMobDefaultHealth(id);
+    static double getDefaultHealth(String id,int level){
+        return instance[0].getMobDefaultHealth(id,level);
     }
 
     static void setOwner(Entity entity,UUID uuid){

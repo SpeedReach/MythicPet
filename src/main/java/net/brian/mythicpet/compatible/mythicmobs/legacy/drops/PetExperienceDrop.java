@@ -5,10 +5,8 @@ import io.lumine.xikage.mythicmobs.drops.Drop;
 import io.lumine.xikage.mythicmobs.drops.DropMetadata;
 import io.lumine.xikage.mythicmobs.drops.IIntangibleDrop;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Message;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -22,7 +20,7 @@ public class PetExperienceDrop extends Drop implements IIntangibleDrop {
     @Override
     public void giveDrop(AbstractPlayer abstractPlayer, DropMetadata dropMetadata) {
         UUID uuid = abstractPlayer.getUniqueId();
-        MythicPet.getPlayer(uuid).ifPresent(playerPetProfile -> {
+        MythicPets.getPlayer(uuid).ifPresent(playerPetProfile -> {
             playerPetProfile.addExp((int) getAmount());
             String message = String.valueOf(Message.ExpRecieve);
             message = message.replace("#Exp#",String.valueOf(getAmount()));

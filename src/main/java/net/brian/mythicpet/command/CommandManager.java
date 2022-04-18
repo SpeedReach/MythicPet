@@ -1,6 +1,6 @@
 package net.brian.mythicpet.command;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.command.commands.*;
 import net.brian.mythicpet.config.Message;
 import org.bukkit.command.*;
@@ -17,7 +17,7 @@ public class CommandManager implements TabExecutor {
     //Sub Commands
     public static String main = "mythicpet";
 
-    public CommandManager(MythicPet plugin){
+    public CommandManager(MythicPets plugin){
         plugin.getCommand(main).setExecutor(this);
         setUp();
     }

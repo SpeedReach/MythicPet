@@ -1,6 +1,6 @@
 package net.brian.mythicpet.command.commands;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.storage.StorageManager;
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ public class StorageCommand extends SubCommand{
         }
         if(args.length==1 && sender instanceof Player){
             Player player = (Player) sender;
-            if(MythicPet.isLoaded(player)){
+            if(MythicPets.isLoaded(player)){
                 StorageManager.openPlayer(player,1);
             }
             else{
@@ -39,7 +39,7 @@ public class StorageCommand extends SubCommand{
                 sender.sendMessage(ChatColor.RED +"Can't find player");
                 return;
             }
-            if(MythicPet.isLoaded(player)){
+            if(MythicPets.isLoaded(player)){
                 StorageManager.openPlayer(player,1);
             }
             else{

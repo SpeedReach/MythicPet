@@ -1,10 +1,10 @@
 package net.brian.mythicpet.config;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.IridiumColorAPI;
-import net.brian.mythicpet.util.ItemReader;
+import net.brian.mythicpet.utils.pattern.IridiumColorAPI;
+import net.brian.mythicpet.utils.ItemReader;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,9 +25,9 @@ public class InteractionGUIConfig {
     boolean enabled,shift;
 
     public InteractionGUIConfig(){
-        File configFile = new File(MythicPet.inst().getDataFolder()+"/InteractionGUI.yml");
+        File configFile = new File(MythicPets.inst().getDataFolder()+"/InteractionGUI.yml");
         if(!configFile.exists()){
-            MythicPet.inst().saveResource("InteractionGUI.yml",false);
+            MythicPets.inst().saveResource("InteractionGUI.yml",false);
         }
         FileConfiguration section = YamlConfiguration.loadConfiguration(configFile);
         storageName = IridiumColorAPI.process(section.getString("GuiName",""));
@@ -40,13 +40,13 @@ public class InteractionGUIConfig {
 
     public Inventory createGUI(HumanEntity player) {
         Inventory inv;
-        if (MythicPet.placeHolderAPI) {
+        if (MythicPets.placeHolderAPI) {
             inv = Bukkit.createInventory(null, 54, PlaceholderAPI.setPlaceholders((OfflinePlayer) player, storageName));
         } else {
             inv = Bukkit.createInventory(null, 54, storageName);
         }
         PlayerPetProfile.get(player.getUniqueId()).flatMap(PlayerPetProfile::getCurrentPet).ifPresent(pet -> {
-            inv.setItem(13, pet.generateIcon((Player) player));
+            inv.setItem(13, pet.getIcon((Player) player));
             inv.setItem(37, ride);
             inv.setItem(40, storage);
             inv.setItem(43, despawn);

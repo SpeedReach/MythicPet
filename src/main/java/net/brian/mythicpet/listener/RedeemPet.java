@@ -1,10 +1,9 @@
 package net.brian.mythicpet.listener;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Message;
-import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.ItemReader;
-import net.brian.playerdatasync.PlayerDataSync;
+import net.brian.mythicpet.pet.PetImpl;
+import net.brian.mythicpet.utils.ItemReader;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,15 +21,19 @@ public class RedeemPet implements Listener {
             if(ItemReader.isPet(event.getItem())){
                 Player player = event.getPlayer();
                 event.setCancelled(true);
-                MythicPet.getPlayer(event.getPlayer().getUniqueId()).ifPresent(playerData->{
+                MythicPets.getPlayer(event.getPlayer().getUniqueId()).ifPresent(playerData->{
                     if(playerData.pets.size() < playerData.maxPage()*28){
-                        playerData.pets.add(ItemReader.getPet(event.getItem()));
-                        ItemStack item = event.getItem();
-                        item.setAmount(item.getAmount()-1);
+
                         if(ItemReader.isPet(player.getInventory().getItemInMainHand())){
+                            ItemStack item = player.getInventory().getItemInMainHand();
+                            playerData.pets.add(new PetImpl(item));
+                            item.setAmount(item.getAmount()-1);
                             player.getInventory().setItemInMainHand(item);
                         }
-                        if(ItemReader.isPet(player.getInventory().getItemInOffHand())){
+                        else if(ItemReader.isPet(player.getInventory().getItemInOffHand())){
+                            ItemStack item = player.getInventory().getItemInOffHand();
+                            playerData.pets.add(new PetImpl(item));
+                            item.setAmount(item.getAmount()-1);
                             player.getInventory().setItemInOffHand(item);
                         }
                     }

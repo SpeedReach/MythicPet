@@ -1,6 +1,6 @@
 package net.brian.mythicpet.command.commands;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.player.Mode;
 import net.brian.mythicpet.player.PlayerPetProfile;
@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.brian.mythicpet.MythicPet.*;
+import static net.brian.mythicpet.MythicPets.*;
 
 public class ModeCommand extends SubCommand{
 
-    MythicPet plugin = inst();
+    MythicPets plugin = inst();
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {

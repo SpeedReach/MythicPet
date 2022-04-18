@@ -1,8 +1,8 @@
 package net.brian.mythicpet.listener;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.compatible.libdisguise.DisguiseListener;
-import net.brian.mythicpet.pet.Pet;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -18,9 +18,9 @@ public class OwnerAction implements Listener {
     public void onChangeWorld(PlayerChangedWorldEvent event){
         PlayerPetProfile.get(event.getPlayer().getUniqueId()).ifPresent(profile->{
             if(profile.hasActive()){
-                profile.getCurrentPet().map(Pet::getPetEntity).ifPresent(entity -> {
+                profile.getCurrentPet().flatMap(Pet::getPetEntity).ifPresent(entity -> {
                     entity.teleport(event.getPlayer().getLocation());
-                    Bukkit.getScheduler().runTaskLater(MythicPet.inst(),()->{
+                    Bukkit.getScheduler().runTaskLater(MythicPets.inst(),()->{
                         DisguiseListener.disguise(entity);
                     },20L);
                 });
@@ -32,7 +32,7 @@ public class OwnerAction implements Listener {
     public void onDismount(EntityDismountEvent event){
         PlayerPetProfile.get(event.getEntity().getUniqueId()).ifPresent(profile->{
             profile.getCurrentPet().ifPresent(pet->{
-                if(pet.getType().isMountOnly()){
+                if(pet.getPetType().isMountOnly()){
                     profile.despawnPet();
                 }
             });

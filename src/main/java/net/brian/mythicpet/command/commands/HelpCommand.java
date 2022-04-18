@@ -1,6 +1,5 @@
 package net.brian.mythicpet.command.commands;
 
-import net.brian.mythicpet.MythicPet;
 import net.brian.mythicpet.config.Message;
 import org.bukkit.command.CommandSender;
 

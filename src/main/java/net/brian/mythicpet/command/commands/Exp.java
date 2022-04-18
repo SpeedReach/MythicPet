@@ -1,8 +1,7 @@
 package net.brian.mythicpet.command.commands;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Message;
-import net.brian.mythicpet.player.PlayerPetProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +26,7 @@ public class Exp extends SubCommand{
                 sender.sendMessage("can't find player");
                 return;
             }
-            MythicPet.getPlayer(player.getUniqueId()).ifPresent(data->{
+            MythicPets.getPlayer(player.getUniqueId()).ifPresent(data->{
                 data.addExp(Integer.parseInt(args[3]));
                 sender.sendMessage(ChatColor.GREEN +"Gave pet exp "+args[3]+" to "+args[2]);
             });

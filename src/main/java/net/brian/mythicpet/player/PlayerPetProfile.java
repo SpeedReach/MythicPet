@@ -1,11 +1,12 @@
 package net.brian.mythicpet.player;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.api.Pet;
+import net.brian.mythicpet.api.SpawnResult;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.Settings;
 import net.brian.mythicpet.event.PetLevelUpEvent;
-import net.brian.mythicpet.pet.Pet;
-import net.brian.mythicpet.util.ItemStackBase64;
+import net.brian.mythicpet.utils.ItemStackBase64;
 import net.brian.playerdatasync.PlayerDataSync;
 import net.brian.playerdatasync.data.PlayerData;
 import net.brian.playerdatasync.data.gson.PostProcessable;
@@ -33,7 +34,7 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
 
     public PlayerPetProfile(UUID uuid) {
         super(uuid);
-        petInventory = MythicPet.inst().getSettings().createPetInventory(uuid);
+        petInventory = MythicPets.inst().getSettings().createPetInventory(uuid);
         player = Bukkit.getPlayer(uuid);
     }
 
@@ -67,10 +68,9 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
         Pet pet = pets.get(index);
         Player player = Bukkit.getPlayer(uuid);
 
-        boolean success;
-        success = pet.spawn(player,player.getLocation());
-        if(success){
-            player.sendMessage(Message.Spawned.replace("#pet_name#",pet.getType().display));
+        SpawnResult spawnResult = pet.spawn(player);
+        if(spawnResult.equals(SpawnResult.SUCCESS)){
+            player.sendMessage(Message.Spawned.replace("#pet_name#",pet.getPetType().getDisplayName()));
             currentPet = pet;
         }
     }
@@ -78,8 +78,8 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
     public void addExp(int amount){
         if(currentPet == null) return;
         Pet pet = currentPet;
-        if(MythicPet.mmoItems){
-            double multiplier = net.Indyuce.mmoitems.api.player.PlayerData.get(uuid).getStats().getStat(MythicPet.inst().mmoitemsLoader.mmo_pet_exp_multiplier);
+        if(MythicPets.mmoItems){
+            double multiplier = net.Indyuce.mmoitems.api.player.PlayerData.get(uuid).getStats().getStat(MythicPets.inst().mmoitemsLoader.mmo_pet_exp_multiplier);
             amount = (int)(amount*(1+0.01*(multiplier)));
         }
         int previousLevel = pet.getLevel();
@@ -99,23 +99,13 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
 
     public Optional<Pet> getCurrentPet(){
         if(currentPet != null) {
-            if(currentPet.getPetEntity().isDead()){
+            if(!currentPet.isActive()){
                 currentPet = null;
             }
         }
         return Optional.ofNullable(currentPet);
     }
 
-    public Pet getCurrentPetWithoutCheck(){
-        return currentPet;
-    }
-
-    public void setCurrentPet(Pet currentPet) {
-        if(currentPet == null){
-            this.currentPet.despawn();
-        }
-        this.currentPet = currentPet;
-    }
 
     public void setMode(String string){
         mode = string;
@@ -132,13 +122,12 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
 
     @Override
     public void gsonPostSerialize() {
-        if(getCurrentPet() != null){
-            currentIndex = pets.indexOf(getCurrentPet());
-        }
-        else{
-            currentIndex = -1;
-        }
-        if(!MythicPet.over17){
+
+        getCurrentPet().ifPresentOrElse(pet -> {
+            currentIndex = pets.indexOf(pet);
+        },()->currentIndex = -1);
+
+        if(!MythicPets.over17){
             int size = petInventory.getSize();
             for(int i=0;i<size;i++){
                 petStringInventory.put(i, ItemStackBase64.getString(petInventory.getItem(i)));
@@ -156,9 +145,9 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
         if(currentIndex != -1){
             spawnPet(currentIndex);
         }
-        if(!MythicPet.over17){
+        if(!MythicPets.over17){
             if(petStringInventory == null) petStringInventory = new HashMap<>();
-            petInventory = MythicPet.inst().getSettings().createPetInventory(uuid);
+            petInventory = MythicPets.inst().getSettings().createPetInventory(uuid);
             for(int i=0;i<petInventory.getSize();i++){
                 petInventory.setItem(i,ItemStackBase64.getItem(petStringInventory.get(i)));
             }

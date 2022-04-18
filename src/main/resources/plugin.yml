@@ -1,6 +1,6 @@
 name: MythicPet
 version: ${project.version}
-main: net.brian.mythicpet.MythicPet
+main: net.brian.mythicpet.MythicPets
 api-version: 1.13
 author: Sleep_AllDay
 depend:

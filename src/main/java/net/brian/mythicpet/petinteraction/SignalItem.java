@@ -1,6 +1,6 @@
 package net.brian.mythicpet.petinteraction;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -8,7 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 public class SignalItem implements Listener {
-    public static final NamespacedKey KEY = new NamespacedKey(MythicPet.inst(),"CommandItemKey");
+    public static final NamespacedKey KEY = new NamespacedKey(MythicPets.inst(),"CommandItemKey");
 
     public static void apply(ItemStack itemStack,String signal){
         if(itemStack == null) return;

@@ -1,12 +1,12 @@
 package net.brian.mythicpet.storage;
 
+import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.SystemIcon;
-import net.brian.mythicpet.pet.Pet;
 import net.brian.mythicpet.pet.PetDirectory;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.AddPetStatus;
-import net.brian.mythicpet.util.Pair;
+import net.brian.mythicpet.utils.AddPetStatus;
+import net.brian.mythicpet.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -38,15 +38,12 @@ public class PetStorage {
                 p++;
                 window.put(p,page);
             }
-            if(PetDirectory.getModels().contains(pet.type)){
-                ItemStack itemStack = pet.generateIcon(player);
-                if(playerData.getCurrentPet() != null){
-                    if(pet.equals(playerData.getCurrentPet())){
+            if(PetDirectory.getModels().contains(pet.getPetType().getID())){
+                ItemStack itemStack = pet.getIcon(player);
+                if(playerData.getCurrentPet().isPresent()){
+                    if(pet.equals(playerData.getCurrentPet().get())){
                         AddPetStatus.inUse(itemStack);
                     }
-                }
-                if(!pet.isAlive().equals("t")){
-                    AddPetStatus.isDead(itemStack);
                 }
                 page.setItem(slot.snd(), itemStack);
                 index++;

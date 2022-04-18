@@ -5,25 +5,22 @@ import io.lumine.mythic.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.mythic.bukkit.events.MythicDropLoadEvent;
 import io.lumine.mythic.bukkit.events.MythicTargeterLoadEvent;
 import io.lumine.mythic.core.skills.placeholders.Placeholder;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.compatible.mythicmobs.latest.conditions.HasTarget;
 import net.brian.mythicpet.compatible.mythicmobs.latest.conditions.IsPetCondition;
 import net.brian.mythicpet.compatible.mythicmobs.latest.conditions.PetModeCondition;
 import net.brian.mythicpet.compatible.mythicmobs.latest.drops.PetDrop;
 import net.brian.mythicpet.compatible.mythicmobs.latest.drops.PetExpDrop;
 import net.brian.mythicpet.compatible.mythicmobs.latest.target.PetTarget;
-import net.brian.mythicpet.pet.PetDirectory;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.utils.PetUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.UUID;
-
 public class LatestMythicLoader implements Listener {
 
 
-    public LatestMythicLoader(MythicPet plugin){
+    public LatestMythicLoader(MythicPets plugin){
         plugin.getServer().getPluginManager().registerEvents(this,plugin);
         loadVariable();
     }
@@ -33,7 +30,7 @@ public class LatestMythicLoader implements Listener {
                 .register("mythicpet.owner", Placeholder.meta((meta, arg) -> {
                     return PetUtils.getOwner(meta.getCaster().getEntity().getBukkitEntity())
                             .map(uuid -> Bukkit.getOfflinePlayer(uuid).getName())
-                            .orElse("Not a Pet");
+                            .orElse("<mythicpet.owner>");
                 }));
     }
 

@@ -3,9 +3,8 @@ package net.brian.mythicpet.compatible.mythicmobs.legacy.condition;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.conditions.IEntityCondition;
-import net.brian.mythicpet.pet.PetDirectory;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.utils.PetUtils;
 import org.bukkit.entity.Mob;
 
 public class HasTarget extends SkillCondition implements IEntityCondition {

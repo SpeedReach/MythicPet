@@ -30,7 +30,7 @@ public class SetLevel extends SubCommand{
                     .flatMap(PlayerPetProfile::getCurrentPet)
                     .ifPresentOrElse(pet -> {
                         pet.setLevel(Integer.parseInt(args[2]));
-                        sender.sendMessage(("Successfully set players ? to "+args[2]).replace("?",pet.getType().display));
+                        sender.sendMessage(("Successfully set players ? to "+args[2]).replace("?",pet.getPetType().getDisplayName()));
                     }, ()->{
                         sender.sendMessage("Player doesn't have active pet");
                     });

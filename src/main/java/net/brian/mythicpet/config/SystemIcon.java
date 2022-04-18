@@ -1,7 +1,7 @@
 package net.brian.mythicpet.config;
 
-import net.brian.mythicpet.MythicPet;
-import net.brian.mythicpet.util.ItemReader;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.utils.ItemReader;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +18,7 @@ public class SystemIcon {
     }
 
     public void load(){
-        File file = new File(MythicPet.inst().getDataFolder(), "message.yml");
+        File file = new File(MythicPets.inst().getDataFolder(), "message.yml");
         Configuration config = YamlConfiguration.loadConfiguration(file);
 
         for(String key: config.getConfigurationSection("SystemIcon").getKeys(false)){

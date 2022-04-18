@@ -6,9 +6,8 @@ import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.SkillCaster;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import io.lumine.xikage.mythicmobs.skills.targeters.IEntitySelector;
-import net.brian.mythicpet.pet.PetDirectory;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.utils.PetUtils;
 import org.bukkit.entity.Entity;
 
 import java.util.*;

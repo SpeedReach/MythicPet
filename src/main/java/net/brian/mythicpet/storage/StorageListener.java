@@ -1,8 +1,8 @@
 package net.brian.mythicpet.storage;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.config.Message;
-import net.brian.mythicpet.pet.Pet;
 import net.brian.mythicpet.player.Mode;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import org.bukkit.entity.Player;
@@ -19,10 +19,10 @@ public class StorageListener implements Listener {
     public void clickEvent(InventoryClickEvent event) {
         if (!event.getView().getTitle().equals(Message.StorageTitle)) return;
         UUID uuid = event.getWhoClicked().getUniqueId();
-        if(!MythicPet.isLoaded((Player) event.getWhoClicked())){
+        if(!MythicPets.isLoaded((Player) event.getWhoClicked())){
             return;
         }
-        PlayerPetProfile data = MythicPet.getPlayer(uuid).get();
+        PlayerPetProfile data = MythicPets.getPlayer(uuid).get();
         event.setCancelled(true);
         if (event.getClickedInventory() == null) return;
         int slot = event.getSlot();
@@ -36,7 +36,7 @@ public class StorageListener implements Listener {
                 break;
             case 47:
                 data.getCurrentPet().ifPresent(pet -> {
-                    pet.getPetEntity().teleport(event.getWhoClicked());
+                    pet.getPetEntity().get().teleport(event.getWhoClicked());
                     pet.getTargetTable().clear();
                 });
                 break;
@@ -64,11 +64,11 @@ public class StorageListener implements Listener {
                     if(data.pets.size()>clicked){
                         Pet clickedPet = data.pets.get(clicked);
                         if(storage.editMode){
-                            if(!clickedPet.getType().canEdit()){
+                            if(!clickedPet.getPetType().canEdit()){
                                 event.getWhoClicked().sendMessage(Message.CannotEdit);
                                 return;
                             }
-                            if(event.getWhoClicked().getInventory().addItem(clickedPet.generateIcon(null)).isEmpty()){
+                            if(event.getWhoClicked().getInventory().addItem(clickedPet.getIcon(null)).isEmpty()){
                                 data.removePet(clickedPet);
                                 StorageManager.openPlayer(event.getWhoClicked(),storage.page);
                             }

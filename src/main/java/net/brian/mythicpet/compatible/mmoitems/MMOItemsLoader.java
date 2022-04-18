@@ -3,14 +3,14 @@ package net.brian.mythicpet.compatible.mmoitems;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.stat.type.DoubleStat;
 import net.Indyuce.mmoitems.stat.type.ItemStat;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import org.bukkit.Material;
 
 public class MMOItemsLoader {
     public ItemStat mmo_pet_exp_multiplier;
     public void load(){
         if(MMOItems.plugin == null) return;
-        MythicPet.mmoItems = true;
+        MythicPets.mmoItems = true;
         mmo_pet_exp_multiplier = new DoubleStat("PET_EXP_MULTIPLIER", Material.BONE,
                 "Pet Exp Multiplier",
                 new String[]{"increase pet exp recieve","20 -> 120%"});

@@ -1,10 +1,9 @@
 package net.brian.mythicpet.compatible.mmoitems.listener;
 
 import io.lumine.mythic.lib.api.item.NBTItem;
-import net.brian.mythicpet.MythicPet;
-import net.brian.mythicpet.pet.Pet;
-import net.brian.mythicpet.pet.PetDirectory;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.api.Pet;
+import net.brian.mythicpet.utils.PetUtils;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
@@ -19,11 +18,11 @@ import java.util.HashMap;
 
 public class MMOItemsHealPet implements Listener {
 
-    private final MythicPet plugin;
+    private final MythicPets plugin;
     private final HashMap<Player,Long> coolDownMap;
     private final long coolDown = 100L;
 
-    public MMOItemsHealPet(MythicPet plugin){
+    public MMOItemsHealPet(MythicPets plugin){
         this.plugin = plugin;
         coolDownMap = new HashMap<>();
     }

@@ -1,11 +1,10 @@
 package net.brian.mythicpet.listener;
 
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.compatible.worldguard.WorldGuardSupport;
-import net.brian.mythicpet.pet.PetDirectory;
 import net.brian.mythicpet.player.Mode;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.util.PetUtils;
+import net.brian.mythicpet.utils.PetUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -17,8 +16,8 @@ import org.bukkit.projectiles.ProjectileSource;
 
 public class PetTargetListener implements Listener {
 
-    private final MythicPet plugin;
-    public PetTargetListener(MythicPet plugin){
+    private final MythicPets plugin;
+    public PetTargetListener(MythicPets plugin){
         this.plugin=plugin;
     }
 
@@ -27,7 +26,7 @@ public class PetTargetListener implements Listener {
         if(PetUtils.isPet(event.getEntity())){
             Entity currentTarget = event.getTarget();
             if(currentTarget != null){
-                if(MythicPet.worldGuard){
+                if(MythicPets.worldGuard){
                     Location location = currentTarget.getLocation();
                     WorldGuardSupport worldGuardSupport =plugin.getWorldGuardSupport();
                     if(currentTarget instanceof Player){

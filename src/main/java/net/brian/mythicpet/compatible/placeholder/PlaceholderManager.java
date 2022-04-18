@@ -1,11 +1,10 @@
 package net.brian.mythicpet.compatible.placeholder;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import net.brian.mythicpet.MythicPet;
+import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.compatible.placeholder.subplaceholder.PetHealth;
 import net.brian.mythicpet.compatible.placeholder.subplaceholder.PetName;
 import net.brian.mythicpet.compatible.placeholder.subplaceholder.SubPlaceholder;
-import net.brian.mythicpet.player.PlayerPetProfile;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +41,7 @@ public class PlaceholderManager extends PlaceholderExpansion {
         if(args.length == 0 ) return null;
         SubPlaceholder subPlaceholder = getSubPlaceholder(args[0]);
         if(subPlaceholder != null){
-            return MythicPet.getPlayer(player.getUniqueId()).map(profile->{
+            return MythicPets.getPlayer(player.getUniqueId()).map(profile->{
                 if(args.length > 1){
                     return subPlaceholder.onPlaceholderRequest(profile,args[1].split("_"));
                 }

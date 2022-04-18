@@ -1,7 +1,7 @@
 package net.brian.mythicpet.config;
 
-import net.brian.mythicpet.MythicPet;
-import net.brian.mythicpet.util.IridiumColorAPI;
+import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.utils.pattern.IridiumColorAPI;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -32,9 +32,9 @@ public class Message {
     public static String CantRide;
 
     public static void reload(){
-        File file = new File(MythicPet.inst().getDataFolder(), "message.yml");
+        File file = new File(MythicPets.inst().getDataFolder(), "message.yml");
         if(!file.exists()){
-            MythicPet.inst().saveResource("message.yml",false);
+            MythicPets.inst().saveResource("message.yml",false);
         }
         Configuration config = YamlConfiguration.loadConfiguration(file);
         MaxLevel = IridiumColorAPI.process(config.getString("Max_Level","&e最大等級"));
