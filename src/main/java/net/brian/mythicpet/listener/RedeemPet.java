@@ -2,7 +2,7 @@ package net.brian.mythicpet.listener;
 
 import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.config.Message;
-import net.brian.mythicpet.pet.PetImpl;
+import net.brian.mythicpet.pets.PetImpl;
 import net.brian.mythicpet.utils.ItemReader;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

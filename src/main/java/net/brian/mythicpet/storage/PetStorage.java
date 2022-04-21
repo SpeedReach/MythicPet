@@ -3,7 +3,8 @@ package net.brian.mythicpet.storage;
 import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.SystemIcon;
-import net.brian.mythicpet.pet.PetDirectory;
+import net.brian.mythicpet.utils.PetDirectory;
+import net.brian.mythicpet.pets.PetImpl;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import net.brian.mythicpet.utils.AddPetStatus;
 import net.brian.mythicpet.utils.Pair;
@@ -29,7 +30,7 @@ public class PetStorage {
         window.put(1,page);
         int index = 0;
         int p = 1;
-        Iterator<Pet> pets = playerData.pets.iterator();
+        Iterator<PetImpl> pets = playerData.pets.iterator();
         while(pets.hasNext()){
             Pet pet = pets.next();
             Pair<Integer,Integer> slot = getRawSlot(index);

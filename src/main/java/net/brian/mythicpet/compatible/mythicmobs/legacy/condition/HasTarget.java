@@ -4,7 +4,7 @@ import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.conditions.IEntityCondition;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.entity.Mob;
 
 public class HasTarget extends SkillCondition implements IEntityCondition {

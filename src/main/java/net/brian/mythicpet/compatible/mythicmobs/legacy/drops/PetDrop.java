@@ -7,8 +7,8 @@ import io.lumine.xikage.mythicmobs.drops.DropMetadata;
 import io.lumine.xikage.mythicmobs.drops.IItemDrop;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import net.brian.mythicpet.api.Pet;
-import net.brian.mythicpet.pet.PetDirectory;
-import net.brian.mythicpet.pet.PetImpl;
+import net.brian.mythicpet.utils.PetDirectory;
+import net.brian.mythicpet.pets.PetImpl;
 
 
 public class PetDrop extends Drop implements IItemDrop {

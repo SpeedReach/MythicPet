@@ -1,5 +1,7 @@
 package net.brian.mythicpet;
 
+import net.brian.mythicpet.api.PetManager;
+import net.brian.mythicpet.pets.PetManagerImpl;
 import net.brian.mythicpet.command.CommandManager;
 import net.brian.mythicpet.compatible.mythicmobs.MythicUtil;
 import net.brian.mythicpet.compatible.mythicmobs.latest.NewMythicUtil;
@@ -20,7 +22,6 @@ import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.Settings;
 import net.brian.mythicpet.config.SystemIcon;
 import net.brian.mythicpet.listener.*;
-import net.brian.mythicpet.pet.PetDirectory;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import net.brian.mythicpet.scheduler.PetMovement;
 import net.brian.mythicpet.storage.InteractionGUIService;
@@ -57,6 +58,7 @@ public final class MythicPets extends JavaPlugin {
     public static boolean over17 = false;
     private static boolean modelEngine = false;
     private static final boolean premium = true;
+    private static PetManager petManager;
 
 
 
@@ -69,7 +71,9 @@ public final class MythicPets extends JavaPlugin {
         loadConfigurations();
         loadManagers();
         registerEvents();
-        PetDirectory.reload();
+
+        petManager = new PetManagerImpl(this);
+
 
 
         commandManager = new CommandManager(this);
@@ -132,7 +136,7 @@ public final class MythicPets extends JavaPlugin {
     }
 
     public static void reload(){
-        PetDirectory.reload();
+        petManager.reload();
         settings.setUp();
         Message.reload();
         systemIcon = new SystemIcon();
@@ -164,7 +168,7 @@ public final class MythicPets extends JavaPlugin {
 
     private void loadSupports(){
         try {
-            Class.forName("io.lumine.xikage.mythicmobs");
+            Class.forName("io.lumine.xikage.mythicmobs.MythicMobs");
             MythicPetLogger.log(ChatColor.YELLOW+"Detected MythicMobs version < 5.0.2");
             MythicPetLogger.log(ChatColor.YELLOW+"Enabling MythicMobs legacy support");
             MythicUtil.instance[0] = new LegacyMythicUtil();
@@ -218,4 +222,7 @@ public final class MythicPets extends JavaPlugin {
         return interactionGUIService;
     }
 
+    public static PetManager getPetManager(){
+        return petManager;
+    }
 }

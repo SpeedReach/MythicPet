@@ -1,6 +1,6 @@
 package net.brian.mythicpet.legacy;
 
-import net.brian.mythicpet.pet.Skin;
+import net.brian.mythicpet.pets.Skin;
 import net.brian.mythicpet.utils.ItemReader;
 import net.brian.mythicpet.utils.pattern.IridiumColorAPI;
 import net.objecthunter.exp4j.ExpressionBuilder;

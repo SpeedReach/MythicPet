@@ -20,7 +20,7 @@ import net.brian.mythicpet.compatible.mythicmobs.legacy.drops.PetExperienceDrop;
 import net.brian.mythicpet.compatible.mythicmobs.legacy.target.PetTarget;
 import net.brian.mythicpet.compatible.mythicmobs.legacy.target.PetTargets;
 import net.brian.mythicpet.utils.pattern.IridiumColorAPI;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;

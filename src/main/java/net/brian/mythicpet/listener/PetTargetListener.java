@@ -4,7 +4,7 @@ import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.compatible.worldguard.WorldGuardSupport;
 import net.brian.mythicpet.player.Mode;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -42,7 +42,11 @@ public class PetTargetListener implements Listener {
                         }
                     }
                 }
+                PetUtils.getOwner(event.getEntity())
+                        .filter(uuid -> uuid.equals(currentTarget.getUniqueId()))
+                        .ifPresent(uuid -> event.setTarget(null));
             }
+
 
             PetUtils.getPetInstance(event.getEntity())
                     .flatMap(pet -> pet.getTargetTable().getHighest())

@@ -5,7 +5,7 @@ import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.conditions.IEntityCondition;
 import io.lumine.xikage.mythicmobs.skills.conditions.all.CustomCondition;
 import net.brian.mythicpet.player.Mode;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.entity.Entity;
 
 public class PetModeCondition extends CustomCondition implements IEntityCondition {

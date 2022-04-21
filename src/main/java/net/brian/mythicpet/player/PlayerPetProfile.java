@@ -6,6 +6,7 @@ import net.brian.mythicpet.api.SpawnResult;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.Settings;
 import net.brian.mythicpet.event.PetLevelUpEvent;
+import net.brian.mythicpet.pets.PetImpl;
 import net.brian.mythicpet.utils.ItemStackBase64;
 import net.brian.playerdatasync.PlayerDataSync;
 import net.brian.playerdatasync.data.PlayerData;
@@ -20,7 +21,7 @@ import java.util.*;
 
 public class PlayerPetProfile extends PlayerData implements QuitProcessable, PostProcessable {
 
-    public List<Pet> pets = new ArrayList<>();;
+    public List<PetImpl> pets = new ArrayList<>();;
     int storageSize = Settings.DefaultPages;
     public String mode = Mode.FOLLOW;
 
@@ -72,6 +73,9 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
         if(spawnResult.equals(SpawnResult.SUCCESS)){
             player.sendMessage(Message.Spawned.replace("#pet_name#",pet.getPetType().getDisplayName()));
             currentPet = pet;
+        }
+        else {
+            player.sendMessage("Failed spawn because of "+spawnResult.name());
         }
     }
 
@@ -133,6 +137,7 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
                 petStringInventory.put(i, ItemStackBase64.getString(petInventory.getItem(i)));
             }
         }
+
     }
 
     @Override

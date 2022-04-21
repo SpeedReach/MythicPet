@@ -1,7 +1,7 @@
 package net.brian.mythicpet.command.commands;
 
 import net.brian.mythicpet.config.Message;
-import net.brian.mythicpet.pet.PetDirectory;
+import net.brian.mythicpet.utils.PetDirectory;
 import org.bukkit.command.CommandSender;
 
 public class ListCommand extends SubCommand{

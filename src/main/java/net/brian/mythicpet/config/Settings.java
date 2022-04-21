@@ -31,6 +31,7 @@ public class Settings {
         Mysql = config.getBoolean("Mysql",false);
         FollowModeDamage = config.getBoolean("FollowModeDamage",false);
         inventoryRows = config.getInt("InventoryRows",1);
+
         inventoryEnabled = inventoryRows > 0 && inventoryRows<=6;
     }
 

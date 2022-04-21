@@ -36,7 +36,12 @@ public class PetMovement {
                                     if(entity instanceof Mob mob){
                                         mob.setTarget(target);
                                     }
-                                },()-> MythicUtil.navigateTo(entity,player.getLocation())));
+                                },()-> {
+                                    if(entity instanceof Mob mob){
+                                        mob.setTarget(null);
+                                    }
+                                    MythicUtil.navigateTo(entity,player.getLocation());
+                                }));
                             });
                         });
             }

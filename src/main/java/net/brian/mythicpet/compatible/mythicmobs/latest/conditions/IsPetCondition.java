@@ -4,7 +4,7 @@ import io.lumine.mythic.api.adapters.AbstractEntity;
 import io.lumine.mythic.api.skills.conditions.IEntityCondition;
 import io.lumine.mythic.bukkit.BukkitAdapter;
 import io.lumine.mythic.core.skills.SkillCondition;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 
 public class IsPetCondition extends SkillCondition implements IEntityCondition{
 

@@ -1,8 +1,8 @@
-package net.brian.mythicpet.pet;
-
+package net.brian.mythicpet.pets;
 
 import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.api.MythicPet;
+import net.brian.mythicpet.api.PetManager;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,16 +10,38 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
+
+public class PetManagerImpl implements PetManager {
+
+    private final MythicPets plugin;
+    private final Map<String, MythicPet> cachedPets = new HashMap<>();
 
 
-public class PetDirectory {
-    private static final HashMap<String, MythicPet> petModels = new HashMap<>();
+    public PetManagerImpl(MythicPets plugin){
+        this.plugin = plugin;
+        reload();
+    }
 
 
-    public static void reload(){
-        petModels.clear();
+    @Override
+    public Optional<MythicPet> getMythicPet(String id) {
+        return Optional.ofNullable(cachedPets.get(id));
+    }
+
+    @Override
+    public Set<String> getPetKeys() {
+        return cachedPets.keySet();
+    }
+
+    @Override
+    public Collection<MythicPet> getPets() {
+        return cachedPets.values();
+    }
+
+    @Override
+    public void reload() {
+        cachedPets.clear();
 
         File directory = new File(MythicPets.inst().getDataFolder()+File.separator+"pets");
         directory.mkdir();
@@ -37,17 +59,11 @@ public class PetDirectory {
             for(String key : config.getKeys(false)){
                 ConfigurationSection section = config.getConfigurationSection(key);
                 MythicPet model = new MythicPetImpl(key,section);
-                petModels.put(key,model);
+                cachedPets.put(key,model);
             }
         }
+
     }
 
 
-    public static MythicPet getModel(String id){
-        return petModels.get(id);
-    }
-
-    public static Set<String > getModels(){
-        return petModels.keySet();
-    }
 }

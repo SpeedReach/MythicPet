@@ -41,7 +41,7 @@ public class LegacyMythicUtil implements MythicUtil {
     }
 
     @Override
-    public boolean mythicmobFound(String id) {
+    public boolean mythicmobExists(String id) {
         return MythicMobs.inst().getMobManager().getMythicMob(id) != null;
     }
 

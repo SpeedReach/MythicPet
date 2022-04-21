@@ -1,17 +1,17 @@
-package net.brian.mythicpet.pet;
+package net.brian.mythicpet.pets;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.expansion.manager.LocalExpansionManager;
 import me.clip.placeholderapi.replacer.Replacer;
 import net.brian.mythicpet.MythicPets;
-import net.brian.mythicpet.api.Icon;
 import net.brian.mythicpet.api.MythicPet;
 import net.brian.mythicpet.api.SpawnResult;
 import net.brian.mythicpet.compatible.mythicmobs.MythicUtil;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.utils.MountPetUtil;
 import net.brian.mythicpet.utils.NonePlayerReplace;
+import net.brian.mythicpet.utils.PetDirectory;
 import net.brian.mythicpet.utils.bar.BarBuilder;
 import net.brian.mythicpet.utils.time.TimeInfo;
 import net.brian.mythicpet.utils.time.TimeUnit;
@@ -44,10 +44,15 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
     private int exp=0,level=1;
     private double health = 20;
 
-    private long deathTimeStamp=0,despawnTimeStamp=0;
+
+    //Legacy Variables useless
+    private String name;
 
 
-    private final transient MythicPet petType;
+    private long deathTime = 0,despawnTimeStamp=0;
+
+
+    private transient MythicPet petType;
     private transient PetTargetTable targetTable;
     private transient Entity petEntity;
 
@@ -67,7 +72,7 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
         type = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"type"), PersistentDataType.STRING,"");
         petType = PetDirectory.getModel(type);
-        deathTimeStamp = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"deathTime"), PersistentDataType.LONG,0L);
+        deathTime = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"deathTime"), PersistentDataType.LONG,0L);
         exp = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"exp"), PersistentDataType.INTEGER,0);
         level = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"level"), PersistentDataType.INTEGER,0);
         health = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"health"), PersistentDataType.DOUBLE,20d);
@@ -88,7 +93,7 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
 
 
 
-        return MythicUtil.spawn(type,owner.getLocation(),level).map(entity -> {
+        return MythicUtil.spawn(petType.getMythicMob(),owner.getLocation(),level).map(entity -> {
             petEntity = entity;
             targetTable = new PetTargetTable(petEntity);
 
@@ -132,9 +137,18 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
 
     @Override
     public ItemStack getIcon(Player owner) {
-        Icon icon = petType.getIcon();
+        refreshStats();
+        MythicPetImpl.Icon icon = petType.getIcon();
         ItemStack itemStack = new ItemStack(icon.mat);
         ItemMeta meta = icon.getMeta();
+
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(new NamespacedKey(MythicPets.inst(),"type"),PersistentDataType.STRING,type);
+        container.set(new NamespacedKey(MythicPets.inst(),"deathTime"),PersistentDataType.LONG,deathTime);
+        container.set(new NamespacedKey(MythicPets.inst(),"exp"),PersistentDataType.INTEGER,exp);
+        container.set(new NamespacedKey(MythicPets.inst(),"level"),PersistentDataType.INTEGER,level);
+        container.set(new NamespacedKey(MythicPets.inst(),"health"), PersistentDataType.DOUBLE,health);
+
         List<String> lores = new ArrayList<>();
         for (String line : icon.lores) {
             lores.add(parse(line,owner));
@@ -144,6 +158,8 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
         }
 
         meta.setLore(lores);
+        meta.setDisplayName(parse(meta.getDisplayName(),owner));
+
         itemStack.setItemMeta(meta);
         return itemStack;
     }
@@ -158,8 +174,8 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
         if(petEntity != null){
             petEntity.remove();
             petEntity = null;
-            deathTimeStamp = System.currentTimeMillis();
-            despawnTimeStamp = deathTimeStamp;
+            deathTime = System.currentTimeMillis();
+            despawnTimeStamp = deathTime;
         }
     }
 
@@ -218,7 +234,7 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
             return false;
         }
         else{
-            return System.currentTimeMillis() - deathTimeStamp > petType.getRespawnCooldown().getMillSec();
+            return System.currentTimeMillis() - deathTime > petType.getRespawnCooldown().getMillSec();
         }
     }
 
@@ -229,7 +245,7 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
 
     @Override
     public void refreshUpstream() {
-        //type = PetDirectory.getModel(petType);
+        petType = PetDirectory.getModel(type);
     }
 
 
@@ -237,7 +253,7 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
         int nextlevel_exp = petType.getRequire(level);
         int maxHealth = petType.getMaxHealth(level);
 
-        if(nextlevel_exp == -1){
+        if(level >= petType.getMaxLevel()){
             s=s.replace("#current_exp# / #nextlevel_exp#", Message.MaxLevel);
         }
         else{

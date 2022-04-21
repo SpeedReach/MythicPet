@@ -19,7 +19,7 @@ public class StorageCommand extends SubCommand{
             sender.sendMessage(Message.NoPermission);
             return;
         }
-        if(args.length==1 && sender instanceof Player){
+        if(args.length == 1 && sender instanceof Player){
             Player player = (Player) sender;
             if(MythicPets.isLoaded(player)){
                 StorageManager.openPlayer(player,1);

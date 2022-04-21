@@ -8,7 +8,7 @@ import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import io.lumine.xikage.mythicmobs.skills.targeters.IEntitySelector;
 import io.lumine.xikage.mythicmobs.util.annotations.MythicTargeter;
 import net.brian.mythicpet.MythicPets;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

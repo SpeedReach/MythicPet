@@ -7,7 +7,7 @@ import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.Settings;
 import net.brian.mythicpet.event.PetLevelUpEvent;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

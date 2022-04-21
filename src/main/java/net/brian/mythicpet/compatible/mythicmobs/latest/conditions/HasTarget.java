@@ -3,7 +3,7 @@ package net.brian.mythicpet.compatible.mythicmobs.latest.conditions;
 import io.lumine.mythic.api.adapters.AbstractEntity;
 import io.lumine.mythic.api.skills.conditions.IEntityCondition;
 import io.lumine.mythic.core.skills.SkillCondition;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.entity.Mob;
 
 public class HasTarget extends SkillCondition implements IEntityCondition {

@@ -3,7 +3,7 @@ package net.brian.mythicpet.compatible.mmoitems.listener;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.api.Pet;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;

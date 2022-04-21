@@ -6,10 +6,8 @@ import io.lumine.mythic.api.drops.DropMetadata;
 import io.lumine.mythic.api.drops.IItemDrop;
 import io.lumine.mythic.bukkit.adapters.BukkitItemStack;
 import net.brian.mythicpet.api.MythicPet;
-import net.brian.mythicpet.api.Pet;
-import net.brian.mythicpet.pet.PetDirectory;
-import net.brian.mythicpet.pet.PetImpl;
-import net.brian.mythicpet.pet.PetTargetTable;
+import net.brian.mythicpet.utils.PetDirectory;
+import net.brian.mythicpet.pets.PetImpl;
 
 public class PetDrop implements IItemDrop {
 

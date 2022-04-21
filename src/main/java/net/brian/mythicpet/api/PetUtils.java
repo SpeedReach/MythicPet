@@ -1,6 +1,5 @@
-package net.brian.mythicpet.utils;
+package net.brian.mythicpet.api;
 
-import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import org.bukkit.entity.Entity;
 import org.bukkit.persistence.PersistentDataType;

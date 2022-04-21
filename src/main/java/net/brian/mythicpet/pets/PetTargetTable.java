@@ -1,4 +1,4 @@
-package net.brian.mythicpet.pet;
+package net.brian.mythicpet.pets;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Damageable;
@@ -13,8 +13,6 @@ public class PetTargetTable {
     private final HashMap<LivingEntity,Double> targetMap;
     private final Mob mob;
     private final Boolean active;
-
-    private Damageable target;
 
     public PetTargetTable(Entity entity){
         targetMap = new HashMap<>();
@@ -65,7 +63,7 @@ public class PetTargetTable {
     }
 
     public boolean hasTarget(){
-        targetMap.entrySet().removeIf(entry -> entry.getKey().isDead());
+        targetMap.entrySet().removeIf(entry -> entry.getKey().isDead() || !entry.getKey().getWorld().equals(mob.getWorld()));
         return targetMap.isEmpty();
     }
 

@@ -12,7 +12,7 @@ import net.brian.mythicpet.compatible.mythicmobs.latest.conditions.PetModeCondit
 import net.brian.mythicpet.compatible.mythicmobs.latest.drops.PetDrop;
 import net.brian.mythicpet.compatible.mythicmobs.latest.drops.PetExpDrop;
 import net.brian.mythicpet.compatible.mythicmobs.latest.target.PetTarget;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -22,6 +22,7 @@ public class CommandManager implements TabExecutor {
         setUp();
     }
 
+
     public void setUp(){
         register(new HelpCommand());
         register(new GivePet());
@@ -86,4 +87,6 @@ public class CommandManager implements TabExecutor {
         commands.add(subCommand);
         available.add(subCommand.name());
     }
+
+
 }

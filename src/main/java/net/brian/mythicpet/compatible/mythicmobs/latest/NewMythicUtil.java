@@ -46,7 +46,7 @@ public class NewMythicUtil implements MythicUtil {
     }
 
     @Override
-    public boolean mythicmobFound(String id) {
+    public boolean mythicmobExists(String id) {
         return MythicProvider.get().getMobManager().getMythicMob(id).isPresent();
     }
 

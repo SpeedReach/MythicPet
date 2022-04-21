@@ -1,7 +1,7 @@
 package net.brian.mythicpet.petinteraction;
 
 import net.brian.mythicpet.MythicPets;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;

@@ -1,6 +1,5 @@
 package net.brian.mythicpet.compatible.mythicmobs;
 
-import net.brian.mythicpet.compatible.mythicmobs.legacy.LegacyMythicUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
@@ -18,7 +17,7 @@ public interface MythicUtil {
 
     void setMobLevel(Entity entity, double level);
 
-    boolean mythicmobFound(String id);
+    boolean mythicmobExists(String id);
 
     double getMobDefaultHealth(String id,int level);
 
@@ -44,7 +43,7 @@ public interface MythicUtil {
     }
 
     static boolean mobExist(String id){
-        return instance[0].mythicmobFound(id);
+        return instance[0].mythicmobExists(id);
     }
 
     static double getDefaultHealth(String id,int level){

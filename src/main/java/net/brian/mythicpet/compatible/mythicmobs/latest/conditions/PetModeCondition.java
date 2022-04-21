@@ -6,7 +6,7 @@ import io.lumine.mythic.api.skills.conditions.IEntityCondition;
 import io.lumine.mythic.core.skills.SkillCondition;
 import net.brian.mythicpet.player.Mode;
 import net.brian.mythicpet.player.PlayerPetProfile;
-import net.brian.mythicpet.utils.PetUtils;
+import net.brian.mythicpet.api.PetUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

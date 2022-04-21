@@ -1,7 +1,7 @@
 package net.brian.mythicpet.api;
 
 import net.brian.mythicpet.MythicPets;
-import net.brian.mythicpet.pet.PetTargetTable;
+import net.brian.mythicpet.pets.PetTargetTable;
 import net.brian.mythicpet.utils.time.TimeInfo;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;

@@ -1,4 +1,4 @@
-package net.brian.mythicpet.pet;
+package net.brian.mythicpet.pets;
 
 import net.brian.mythicpet.MythicPets;
 import org.bukkit.NamespacedKey;
@@ -6,7 +6,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+
 public class Skin {
+
 
     private String mob;
     private String name;
@@ -15,6 +17,7 @@ public class Skin {
     public static final NamespacedKey skinKey = new NamespacedKey(MythicPets.inst(),"skinKey");
     public static final NamespacedKey petKey = new NamespacedKey(MythicPets.inst(),"petKey");
     public static final NamespacedKey nameKey = new NamespacedKey(MythicPets.inst(),"nameKey");
+
 
     public Skin(String petType,String mob,String name,ItemStack itemStack,boolean needPerm){
         this.mob = mob;
