@@ -1,20 +1,23 @@
-package net.brian.mythicpet.event;
+package net.brian.mythicpet.api.event;
 
 import net.brian.mythicpet.api.Pet;
-import net.brian.mythicpet.player.PlayerPetProfile;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class PetLevelUpEvent extends Event{
+public class PetSpawnEvent extends Event{
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
-    private final PlayerPetProfile profile;
+    private final Player player;
     private final Pet pet;
+    private final Entity entity;
 
-    public PetLevelUpEvent(PlayerPetProfile profile, Pet pet){
-        this.profile = profile;
+    public PetSpawnEvent(Player player, Pet pet, Entity entity){
+        this.player = player;
         this.pet = pet;
+        this.entity = entity;
     }
 
     @Override
@@ -28,11 +31,15 @@ public class PetLevelUpEvent extends Event{
         return HANDLERS_LIST;
     }
 
-    public PlayerPetProfile getProfile() {
-        return profile;
+    public Player getPlayer(){
+        return player;
     }
 
     public Pet getPet() {
         return pet;
+    }
+
+    public Entity getEntity() {
+        return entity;
     }
 }

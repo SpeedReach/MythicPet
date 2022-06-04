@@ -3,7 +3,7 @@ package net.brian.mythicpet.compatible.libdisguise;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
-import net.brian.mythicpet.event.PetSpawnEvent;
+import net.brian.mythicpet.api.event.PetSpawnEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

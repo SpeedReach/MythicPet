@@ -6,10 +6,9 @@ import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.compatible.mythicmobs.MythicUtil;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.Settings;
-import net.brian.mythicpet.event.PetLevelUpEvent;
+import net.brian.mythicpet.api.event.PetLevelUpEvent;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import net.brian.mythicpet.api.PetUtils;
-import net.brian.mythicpet.utils.MythicPetLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -23,8 +22,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
 import org.spigotmc.event.entity.EntityMountEvent;
-
-import java.util.Optional;
 
 public class PetActions implements Listener {
     MythicPets plugin = MythicPets.inst();

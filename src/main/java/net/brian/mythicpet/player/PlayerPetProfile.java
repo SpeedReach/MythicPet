@@ -5,7 +5,7 @@ import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.api.SpawnResult;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.Settings;
-import net.brian.mythicpet.event.PetLevelUpEvent;
+import net.brian.mythicpet.api.event.PetLevelUpEvent;
 import net.brian.mythicpet.pets.PetImpl;
 import net.brian.mythicpet.utils.ItemStackBase64;
 import net.brian.playerdatasync.PlayerDataSync;
