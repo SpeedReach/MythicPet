@@ -26,12 +26,12 @@ public class BarBuilder {
         StringBuilder builder = new StringBuilder(fullFileColor.toString());
         double partition = max/len;
 
-        for(double i=0;i<=max;i+=partition){
-            if(i>=current){
-                builder.append(c);
+        for(double i=0;i<max;i+=partition){
+            if(i<current){
+                builder.append(fullFileColor).append(c);
             }
             else{
-                builder.append(ChatColor.GRAY).append(c);
+                builder.append("§7").append(c);
             }
         }
 

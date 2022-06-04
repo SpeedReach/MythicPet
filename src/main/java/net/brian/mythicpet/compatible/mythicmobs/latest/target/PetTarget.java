@@ -23,7 +23,6 @@ public class PetTarget extends IEntitySelector {
     public Collection<AbstractEntity> getEntities(SkillMetadata skillMetadata) {
         return PetUtils.getOwnerProfile(skillMetadata.getCaster().getEntity().getBukkitEntity())
                 .flatMap(PlayerPetProfile::getCurrentPet)
-                .filter(pet -> pet.getTargetTable().hasTarget())
                 .flatMap(pet -> pet.getTargetTable().getHighest())
                 .map(entity-> Collections.singleton(BukkitAdapter.adapt(entity)))
                 .orElse(new HashSet<>());

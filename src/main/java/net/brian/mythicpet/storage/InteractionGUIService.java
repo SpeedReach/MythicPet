@@ -1,6 +1,7 @@
 package net.brian.mythicpet.storage;
 
 import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.config.InteractionGUIConfig;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import net.brian.mythicpet.utils.MountPetUtil;
@@ -62,7 +63,7 @@ public class InteractionGUIService implements Listener {
     }
 
     public void open(HumanEntity player){
-        Inventory inv = MythicPets.getInteractionGUIConfig().createGUI(player);
+        Inventory inv = InteractionGUIConfig.createGUI(player);
         player.openInventory(inv);
         viewers.add(player);
     }

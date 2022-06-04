@@ -65,7 +65,7 @@ public class LatestMythicLoader implements Listener {
             event.register(new PetDrop(event.getConfig()));
         }
         else if(name.equalsIgnoreCase("pet-exp")){
-            event.register(new PetExpDrop());
+            event.register(new PetExpDrop(event.getConfig()));
         }
     }
 }

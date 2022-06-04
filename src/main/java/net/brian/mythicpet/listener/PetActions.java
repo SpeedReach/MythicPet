@@ -2,12 +2,14 @@ package net.brian.mythicpet.listener;
 
 
 import net.brian.mythicpet.MythicPets;
+import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.compatible.mythicmobs.MythicUtil;
 import net.brian.mythicpet.config.Message;
 import net.brian.mythicpet.config.Settings;
 import net.brian.mythicpet.event.PetLevelUpEvent;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import net.brian.mythicpet.api.PetUtils;
+import net.brian.mythicpet.utils.MythicPetLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -72,13 +74,19 @@ public class PetActions implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onDeath(EntityDeathEvent event){
-        PetUtils.getOwner(event.getEntity()).flatMap(uuid -> Optional.ofNullable(Bukkit.getPlayer(uuid)))
-                .ifPresent(player -> PlayerPetProfile.get(player.getUniqueId()).flatMap(PlayerPetProfile::getCurrentPet).ifPresent(pet -> {
-                    pet.setDead();
-                    String message = String.valueOf(Message.PetDied);
-                    message = message.replace("#pet_name#", pet.getPetType().getDisplayName());
-                    player.sendMessage(message);
-                }));
+        PetUtils.getOwnerProfile(event.getEntity()).ifPresent(profile -> {
+            Pet pet = profile.getCurrentPetWithOutCheck();
+            if(pet != null){
+                pet.getPetEntity().ifPresent(entity -> {
+                    if(entity.equals(event.getEntity())){
+                        String message = String.valueOf(Message.PetDied);
+                        message = message.replace("#pet_name#", pet.getPetType().getDisplayName());
+                        Bukkit.getPlayer(profile.getUUID()).sendMessage(message);
+                        pet.setDead();
+                    }
+                });
+            }
+        });
     }
 
     @EventHandler(ignoreCancelled = true,priority = EventPriority.MONITOR)

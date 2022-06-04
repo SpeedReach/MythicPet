@@ -1,6 +1,8 @@
 package net.brian.mythicpet;
 
+import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.api.PetManager;
+import net.brian.mythicpet.pets.PetImpl;
 import net.brian.mythicpet.pets.PetManagerImpl;
 import net.brian.mythicpet.command.CommandManager;
 import net.brian.mythicpet.compatible.mythicmobs.MythicUtil;
@@ -43,7 +45,6 @@ public final class MythicPets extends JavaPlugin {
 
     private static MythicPets plugin;
     public static Logger logger = Logger.getLogger("MythicPet");
-    private static Settings settings;
     public static SystemIcon systemIcon;
     private static InteractionGUIConfig interactionGUIConfig;
     private static InteractionGUIService interactionGUIService;
@@ -68,18 +69,17 @@ public final class MythicPets extends JavaPlugin {
         plugin = this;
         loadSupports();
         PlayerDataSync.getInstance().register("mythicpet", PlayerPetProfile.class);
-        loadConfigurations();
+
         loadManagers();
         registerEvents();
 
         petManager = new PetManagerImpl(this);
 
-
-
         commandManager = new CommandManager(this);
 
+        reload();
 
-        if(mmoItems){
+        if(false){
             getServer().getPluginManager().registerEvents(new MMOItemsHealPet(this),this);
         }
 
@@ -100,7 +100,7 @@ public final class MythicPets extends JavaPlugin {
             MythicPetLogger.log(ChatColor.GREEN+ "Enabled WorldGuard support");
         }
         Plugin mmoItemPlugin = Bukkit.getPluginManager().getPlugin("MMOItems");
-        if(mmoItemPlugin != null){
+        if(false){
             mmoitemsLoader = new MMOItemsLoader();
             mmoitemsLoader.load();
             MythicPetLogger.log(ChatColor.GREEN+ "Enabled MMOItems support");
@@ -128,24 +128,23 @@ public final class MythicPets extends JavaPlugin {
         }
     }
 
-    public static void loadConfigurations(){
-        Message.reload();
-        settings = new Settings();
-        systemIcon = new SystemIcon();
-        interactionGUIConfig = new InteractionGUIConfig();
-    }
 
     public static void reload(){
-        petManager.reload();
-        settings.setUp();
+        Settings.reload();
         Message.reload();
-        systemIcon = new SystemIcon();
-        interactionGUIConfig = new InteractionGUIConfig();
+        SystemIcon.reload();
+        InteractionGUIConfig.reload();
+        petManager.reload();
+        for (PlayerPetProfile profile : PlayerDataSync.getInstance().getPlayerDatas().getTable((PlayerPetProfile.class)).cacheData.values()) {
+            profile.pets.forEach(Pet::refreshUpstream);
+        }
     }
+
 
     public static InteractionGUIConfig getInteractionGUIConfig() {
         return interactionGUIConfig;
     }
+
 
     public void loadManagers(){
         PetMovement movement = new PetMovement();
@@ -153,9 +152,9 @@ public final class MythicPets extends JavaPlugin {
         interactionGUIService = new InteractionGUIService();
     }
 
-    public Settings getSettings(){
-        return settings;
-    }
+
+
+
 
     public static Optional<PlayerPetProfile> getPlayer(UUID uuid){
         return PlayerDataSync.getInstance().getData(uuid, PlayerPetProfile.class);
@@ -165,6 +164,7 @@ public final class MythicPets extends JavaPlugin {
     public static boolean isLoaded(Player player){
         return PlayerDataSync.isLoaded(player);
     }
+
 
     private void loadSupports(){
         try {
@@ -214,6 +214,7 @@ public final class MythicPets extends JavaPlugin {
         return worldGuardFlag;
     }
 
+
     public static boolean hasModelEngine() {
         return modelEngine;
     }
@@ -225,4 +226,5 @@ public final class MythicPets extends JavaPlugin {
     public static PetManager getPetManager(){
         return petManager;
     }
+
 }

@@ -15,6 +15,7 @@ public class WorldGuardSupport {
     public StateFlag pet_hurt;
     public StateFlag pet_damage_pet;
     public StateFlag pet_damage_player;
+    public StateFlag canRide;
     public WorldGuardSupport(){
     }
     public void loadFlag(){
@@ -25,6 +26,7 @@ public class WorldGuardSupport {
             StateFlag flag2 = new StateFlag("pet-damaged",true);
             StateFlag flag3 = new StateFlag("pet-damage-pet",false);
             StateFlag flag4 = new StateFlag("pet-damage-player",false);
+            canRide = new StateFlag("mythicpet-ride",true);
             registry.register(flag);
             registry.register(flag3);
             registry.register(flag4);
@@ -58,5 +60,11 @@ public class WorldGuardSupport {
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         ApplicableRegionSet set = container.createQuery().getApplicableRegions(BukkitAdapter.adapt(location));
         return set.testState(null,pet_damage_player);
+    }
+
+    public boolean canRide(Location location){
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        ApplicableRegionSet set = container.createQuery().getApplicableRegions(BukkitAdapter.adapt(location));
+        return set.testState(null,canRide);
     }
 }

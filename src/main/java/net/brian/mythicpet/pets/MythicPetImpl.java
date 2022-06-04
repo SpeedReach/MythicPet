@@ -20,7 +20,7 @@ import java.util.UUID;
 
 public class MythicPetImpl implements MythicPet {
 
-    private final String id;
+    private final String petID;
     private final HashMap<Integer,Integer> levels = new HashMap<>();
     private final boolean mountOnly,mountAble;
     private final String mountType;
@@ -31,17 +31,17 @@ public class MythicPetImpl implements MythicPet {
     private final String display;
     private final String mythicMob;
 
-    public MythicPetImpl(String id, ConfigurationSection section){
-        this.id = id;
+    public MythicPetImpl(String petID, ConfigurationSection section){
+        this.petID = petID;
 
         mountType = section.getString("MountType","walking");
-        mountOnly = section.getBoolean("MountOnly");
+        mountOnly = section.getBoolean("MountOnly",false);
         icon = new Icon(section.getConfigurationSection("Icon"));
         respawnTime = section.getLong("RespawnTime",0);
         editable = section.getBoolean("Editable",true);
         maxLevel = section.getInt("MaxLevel",50);
         display = IridiumColorAPI.process(section.getString("Display",""));
-        mountAble = section.getBoolean("Mountable");
+        mountAble = section.getBoolean("Mountable",true);
         mythicMob = section.getString("MythicMob");
         setLevelRequire(section.getString("Level-RequireMent","10*#level#"));
     }
@@ -58,7 +58,7 @@ public class MythicPetImpl implements MythicPet {
 
     @Override
     public String getID() {
-        return id;
+        return petID;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class MythicPetImpl implements MythicPet {
 
     @Override
     public int getRequire(int level) {
-        return levels.getOrDefault(level+1,-1);
+        return levels.getOrDefault(level,-1);
     }
 
     @Override
@@ -78,12 +78,12 @@ public class MythicPetImpl implements MythicPet {
 
     @Override
     public TimeInfo getRespawnCooldown() {
-        return new TimeInfo(respawnTime);
+        return new TimeInfo(respawnTime*1000);
     }
 
     @Override
     public int getMaxHealth(int level) {
-        return (int) MythicUtil.getDefaultHealth(id,level);
+        return (int) MythicUtil.getDefaultHealth(mythicMob,level);
     }
 
     @Override

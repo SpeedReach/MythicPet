@@ -6,9 +6,11 @@ import me.clip.placeholderapi.expansion.manager.LocalExpansionManager;
 import me.clip.placeholderapi.replacer.Replacer;
 import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.api.MythicPet;
+import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.api.SpawnResult;
 import net.brian.mythicpet.compatible.mythicmobs.MythicUtil;
 import net.brian.mythicpet.config.Message;
+import net.brian.mythicpet.config.SystemIcon;
 import net.brian.mythicpet.utils.MountPetUtil;
 import net.brian.mythicpet.utils.NonePlayerReplace;
 import net.brian.mythicpet.utils.PetDirectory;
@@ -35,10 +37,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
+public class PetImpl implements Pet, PostProcessable {
 
 
     public static final NamespacedKey ownerKey = new NamespacedKey(MythicPets.inst(),"owner");
+
 
     private final String type;
     private int exp=0,level=1;
@@ -52,9 +55,11 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
     private long deathTime = 0,despawnTimeStamp=0;
 
 
+    private transient Player owner;
     private transient MythicPet petType;
     private transient PetTargetTable targetTable;
     private transient Entity petEntity;
+    private transient boolean disabled;
 
     public PetImpl(MythicPet type){
         this(type,1);
@@ -71,7 +76,7 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
     public PetImpl(ItemStack itemStack){
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
         type = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"type"), PersistentDataType.STRING,"");
-        petType = PetDirectory.getModel(type);
+        refreshUpstream();
         deathTime = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"deathTime"), PersistentDataType.LONG,0L);
         exp = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"exp"), PersistentDataType.INTEGER,0);
         level = container.getOrDefault(new NamespacedKey(MythicPets.inst(),"level"), PersistentDataType.INTEGER,0);
@@ -82,7 +87,9 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
 
     @Override
     public SpawnResult spawn(Location location, Player owner) {
+        if(disabled) return SpawnResult.PET_NOT_EXIST;
         if(isActive()) return SpawnResult.ALREADY_SPAWNED;
+
         TimeInfo respawnTimeInfo = getRecoverTime();
         if(respawnTimeInfo.getMillSec() > 0){
             owner.sendMessage(Message.InRespawnCooldown.replace("#remain_time#",respawnTimeInfo.getTime(TimeUnit.SECOND).toString()));
@@ -95,20 +102,20 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
 
         return MythicUtil.spawn(petType.getMythicMob(),owner.getLocation(),level).map(entity -> {
             petEntity = entity;
-            targetTable = new PetTargetTable(petEntity);
+            targetTable = new PetTargetTable(owner,petEntity);
 
             petEntity.getPersistentDataContainer().set(ownerKey, PersistentDataType.STRING,owner.getUniqueId().toString());
 
             if(petEntity instanceof LivingEntity livingEntity){
-                livingEntity.setHealth(health);
                 AttributeInstance healthAtt = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
                 if(healthAtt != null){
                     healthAtt.setBaseValue(petType.getMaxHealth(level));
                 }
+                livingEntity.setHealth(health);
             }
 
             Bukkit.getScheduler().runTaskLater(MythicPets.inst(),()->{
-                if(petEntity.getCustomName() != null){
+                if(petEntity != null &&petEntity.getCustomName() != null){
                     petEntity.setCustomName(petEntity.getCustomName().replace("<mythicpet.owner>",owner.getName()));
                 }
 
@@ -121,8 +128,9 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
 
 
 
+            this.owner = owner;
             return SpawnResult.SUCCESS;
-        }).orElse(SpawnResult.NOT_EXIST);
+        }).orElse(SpawnResult.MOB_NOT_EXISTS);
 
     }
 
@@ -131,12 +139,17 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
         targetTable = null;
         if(petEntity != null){
             petEntity.remove();
+            petEntity = null;
             despawnTimeStamp = System.currentTimeMillis();
         }
     }
 
     @Override
     public ItemStack getIcon(Player owner) {
+        if(disabled){
+            SystemIcon.get("Disabled");
+        }
+
         refreshStats();
         MythicPetImpl.Icon icon = petType.getIcon();
         ItemStack itemStack = new ItemStack(icon.mat);
@@ -171,11 +184,11 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
     @Override
     public void setDead() {
         targetTable = null;
+        deathTime = System.currentTimeMillis();
+        despawnTimeStamp = deathTime;
         if(petEntity != null){
             petEntity.remove();
             petEntity = null;
-            deathTime = System.currentTimeMillis();
-            despawnTimeStamp = deathTime;
         }
     }
 
@@ -187,10 +200,13 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
 
     @Override
     public void addExp(int amount) {
+        if(disabled) return;
+
         if(petType.getMaxLevel() <= level){
             return;
         }
         exp += amount;
+        int previousLevel = level;
         while(exp > petType.getRequire(level+1)){
             exp-= petType.getRequire(level+1);
             level++;
@@ -198,6 +214,14 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
                 exp = petType.getRequire(level);
                 break;
             }
+        }
+        if(level > previousLevel){
+            MythicUtil.setLevel(petEntity,level);
+            Bukkit.getScheduler().runTaskLater(MythicPets.inst(),()->{
+                if(petEntity != null &&petEntity.getCustomName() != null){
+                    petEntity.setCustomName(petEntity.getCustomName().replace("<mythicpet.owner>",owner.getName()));
+                }
+            },20);
         }
     }
 
@@ -216,6 +240,8 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
      */
     @Override
     public boolean isActive() {
+        if(disabled) return false;
+
         if(petEntity != null){
             if(petEntity.isValid()){
                 return true;
@@ -230,6 +256,8 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
 
     @Override
     public boolean canSpawn() {
+        if(disabled) return false;
+
         if(isActive()){
             return false;
         }
@@ -238,20 +266,52 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
         }
     }
 
-    @Override
-    public TimeInfo getRecoverTime() {
-        return new TimeInfo(Math.min(0,System.currentTimeMillis()-despawnTimeStamp));
+    private boolean shouldHeal(){
+        if(disabled) return false;
+
+        TimeInfo respawnCoolDown = petType.getRespawnCooldown();
+        long currentTime = System.currentTimeMillis();
+        return currentTime - despawnTimeStamp > respawnCoolDown.getMillSec();
     }
 
     @Override
+    public TimeInfo getRecoverTime() {
+        if(disabled) return new TimeInfo(0);
+
+        TimeInfo respawnCoolDown = petType.getRespawnCooldown();
+        long currentTime = System.currentTimeMillis();
+        if(shouldHeal()){
+            return new TimeInfo(0);
+        }
+        else{
+            if(currentTime - deathTime > respawnCoolDown.getMillSec()){
+                return new TimeInfo(0);
+            }
+            return new TimeInfo(respawnCoolDown.getMillSec()-(currentTime-deathTime));
+        }
+    }
+
+
+    @Override
     public void refreshUpstream() {
-        petType = PetDirectory.getModel(type);
+        MythicPets.getPetManager().getMythicPet(type).ifPresentOrElse(parent->{
+            disabled = false;
+            petType = parent;
+        },()-> disabled = true);
     }
 
 
     public String parse(String s,Player player) {
-        int nextlevel_exp = petType.getRequire(level);
+        if(disabled) return s;
+
+        int nextlevel_exp = petType.getRequire(level+1);
         int maxHealth = petType.getMaxHealth(level);
+        if(petEntity != null && petEntity instanceof LivingEntity){
+            AttributeInstance attributeInstance = ((LivingEntity) petEntity).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            if(attributeInstance != null){
+                maxHealth = (int) attributeInstance.getValue();
+            }
+        }
 
         if(level >= petType.getMaxLevel()){
             s=s.replace("#current_exp# / #nextlevel_exp#", Message.MaxLevel);
@@ -262,8 +322,8 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
         }
         s=s.replace("#level#",String.valueOf(level));
         s=s.replace("#health#",String.valueOf(Math.round(health)));
-        s=s.replace("#max_health#",String.valueOf(petType.getMaxHealth(level)));
-        s=s.replace("#health_bar#",new BarBuilder(health,maxHealth).build());
+        s=s.replace("#max_health#",String.valueOf(maxHealth));
+        s=s.replace("#health_bar#",new BarBuilder(health,maxHealth,ChatColor.GREEN,20,'|').build());
         s=s.replace("#exp_bar#",new BarBuilder(exp,nextlevel_exp, ChatColor.YELLOW,10,'▋').build());
 
         int start = s.indexOf("#Math(")+6;
@@ -299,6 +359,11 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
     }
 
     @Override
+    public String getPetID() {
+        return type;
+    }
+
+    @Override
     public PetTargetTable getTargetTable() {
         return targetTable;
     }
@@ -314,8 +379,12 @@ public class PetImpl implements net.brian.mythicpet.api.Pet, PostProcessable {
             }
         }
         else{
-            if(getRecoverTime().getMillSec() <= 0){
-                health = petType.getMaxHealth(level);
+            double maxHealth  = petType.getMaxHealth(level);
+            if(health == 0 && getRecoverTime().getMillSec() <= 0){
+                health = maxHealth;
+            }
+            else if(shouldHeal()){
+                health = maxHealth;
             }
         }
         health = Math.max(0,health);

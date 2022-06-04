@@ -42,13 +42,12 @@ public class PetManagerImpl implements PetManager {
     @Override
     public void reload() {
         cachedPets.clear();
-
-        File directory = new File(MythicPets.inst().getDataFolder()+File.separator+"pets");
-        directory.mkdir();
-        File exampleFile = new File(MythicPets.inst().getDataFolder()+"/pets/ExamplePet.yml");
+        File directory = new File(plugin.getDataFolder()+File.separator+"pets");
+        directory.mkdirs();
+        File exampleFile = new File(plugin.getDataFolder()+File.separator+"pets"+File.separator+"ExamplePet.yml");
         if(!exampleFile.exists()){
             try {
-                Files.copy(MythicPets.inst().getResource("ExamplePet.yml"), exampleFile.toPath());
+                Files.copy(plugin.getResource("ExamplePet.yml"), exampleFile.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }

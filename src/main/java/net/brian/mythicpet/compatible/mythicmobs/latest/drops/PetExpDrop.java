@@ -2,6 +2,7 @@ package net.brian.mythicpet.compatible.mythicmobs.latest.drops;
 
 import io.lumine.mythic.api.adapters.AbstractItemStack;
 import io.lumine.mythic.api.adapters.AbstractPlayer;
+import io.lumine.mythic.api.config.MythicLineConfig;
 import io.lumine.mythic.api.drops.DropMetadata;
 import io.lumine.mythic.api.drops.IIntangibleDrop;
 import io.lumine.mythic.api.drops.IItemDrop;
@@ -9,6 +10,9 @@ import net.brian.mythicpet.player.PlayerPetProfile;
 
 public class PetExpDrop implements IIntangibleDrop {
 
+    public PetExpDrop(MythicLineConfig mlc){
+
+    }
 
     @Override
     public void giveDrop(AbstractPlayer abstractPlayer, DropMetadata dropMetadata, double v) {

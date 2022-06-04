@@ -7,11 +7,13 @@ net\brian\mythicpet\compatible\mythicmobs\latest\drops\PetDrop.class
 net\brian\mythicpet\pets\MythicPetImpl$Icon.class
 net\brian\mythicpet\utils\NonePlayerReplace.class
 net\brian\mythicpet\scheduler\PetMovement.class
+net\brian\mythicpet\api\PlayerPetProfile.class
 net\brian\mythicpet\command\commands\StorageCommand.class
 net\brian\mythicpet\utils\pattern\IridiumColorAPI.class
 net\brian\mythicpet\storage\StorageListener.class
 net\brian\mythicpet\compatible\mmoitems\listener\MMOItemsHealPet.class
 net\brian\mythicpet\utils\pattern\SolidPattern.class
+net\brian\mythicpet\player\PlayerPetProfile$1.class
 net\brian\mythicpet\config\Message.class
 net\brian\mythicpet\petinteraction\RightClickPetListener.class
 net\brian\mythicpet\utils\time\TimeUnit.class

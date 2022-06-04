@@ -227,7 +227,7 @@ public class Pet implements PostProcessable {
 
 
                 //Bukkit.getPluginManager().callEvent(new PetSpawnEvent(player, this,petEntity));
-                targetTable = new PetTargetTable(petEntity);
+                targetTable = new PetTargetTable(player,petEntity);
 
                 Bukkit.getScheduler().runTaskLater(MythicPets.inst(),()->{
                     if(petEntity != null && petEntity.getCustomName() != null){

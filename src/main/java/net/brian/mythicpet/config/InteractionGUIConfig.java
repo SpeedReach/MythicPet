@@ -18,27 +18,13 @@ import java.io.File;
 
 public class InteractionGUIConfig {
 
-    private final int[] skinSlots = new int[]{13,40, 43, 37};
+    private final static int[] skinSlots = new int[]{13,40, 43, 37};
 
-    ItemStack ride,storage,despawn;
-    String storageName;
-    boolean enabled,shift;
+    static ItemStack ride,storage,despawn;
+    static String storageName;
+    static boolean enabled,shift;
 
-    public InteractionGUIConfig(){
-        File configFile = new File(MythicPets.inst().getDataFolder()+"/InteractionGUI.yml");
-        if(!configFile.exists()){
-            MythicPets.inst().saveResource("InteractionGUI.yml",false);
-        }
-        FileConfiguration section = YamlConfiguration.loadConfiguration(configFile);
-        storageName = IridiumColorAPI.process(section.getString("GuiName",""));
-        ride = ItemReader.getItem(section.getConfigurationSection("Mount"));
-        storage = ItemReader.getItem(section.getConfigurationSection("BackPack"));
-        despawn = ItemReader.getItem(section.getConfigurationSection("Despawn"));
-        enabled = section.getBoolean("Enabled",true);
-        shift = section.getBoolean("Shift",true);
-    }
-
-    public Inventory createGUI(HumanEntity player) {
+    public static Inventory createGUI(HumanEntity player) {
         Inventory inv;
         if (MythicPets.placeHolderAPI) {
             inv = Bukkit.createInventory(null, 54, PlaceholderAPI.setPlaceholders((OfflinePlayer) player, storageName));
@@ -54,8 +40,22 @@ public class InteractionGUIConfig {
         return inv;
     }
 
+    public static void reload(){
+        File configFile = new File(MythicPets.inst().getDataFolder()+"/InteractionGUI.yml");
+        if(!configFile.exists()){
+            MythicPets.inst().saveResource("InteractionGUI.yml",false);
+        }
+        FileConfiguration section = YamlConfiguration.loadConfiguration(configFile);
+        storageName = IridiumColorAPI.process(section.getString("GuiName",""));
+        ride = ItemReader.getItem(section.getConfigurationSection("Mount"));
+        storage = ItemReader.getItem(section.getConfigurationSection("BackPack"));
+        despawn = ItemReader.getItem(section.getConfigurationSection("Despawn"));
+        enabled = section.getBoolean("Enabled",true);
+        shift = section.getBoolean("Shift",true);
+    }
 
-    public boolean isEnabled() {
+
+    public static boolean isEnabled() {
         return enabled;
     }
 }

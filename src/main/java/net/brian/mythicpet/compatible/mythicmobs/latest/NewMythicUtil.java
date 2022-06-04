@@ -12,7 +12,10 @@ import io.lumine.mythic.core.mobs.MobExecutor;
 import net.brian.mythicpet.compatible.mythicmobs.MythicUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import javax.print.DocFlavor;
 import java.util.Optional;
@@ -54,12 +57,15 @@ public class NewMythicUtil implements MythicUtil {
     public double getMobDefaultHealth(String id,int level) {
         return MythicProvider.get().getMobManager().getMythicMob(id)
                 .map(mythicMob -> {
+
                     double health = mythicMob.getHealth().get();
+
                     if (mythicMob.getPerLevelHealth() > 0.0D) {
                         if (level > 1.0D) {
                             health += mythicMob.getPerLevelHealth() * (level - 1);
                         }
-                    } else if (MythicBukkit.inst().getConfiguration().getScalingEquationHealth() != null) {
+                    }
+                    else if (MythicBukkit.inst().getConfiguration().getScalingEquationHealth() != null) {
                         health = MythicBukkit.inst().getConfiguration().getScalingEquationHealth().setVariable("v", health).setVariable("l",level).evaluate();
                     }
 
@@ -82,7 +88,7 @@ public class NewMythicUtil implements MythicUtil {
 
     @Override
     public Location findSafeLocation( Location location, double height) {
-        return BukkitAdapter.adapt(MobExecutor.findSafeSpawnLocation(BukkitAdapter.adapt(location),5,(int) height));
+        return BukkitAdapter.adapt(MobExecutor.findSafeSpawnLocation(BukkitAdapter.adapt(location),5,3,(int) height,false,true));
     }
 
 }

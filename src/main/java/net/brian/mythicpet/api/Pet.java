@@ -47,6 +47,7 @@ public interface Pet {
     abstract void refreshUpstream();
 
     abstract MythicPet getPetType();
+    abstract String getPetID();
 
     abstract PetTargetTable getTargetTable();
 

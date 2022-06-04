@@ -1,10 +1,8 @@
 package net.brian.mythicpet.pets;
 
+import net.brian.mythicpet.api.Pet;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
+import org.bukkit.entity.*;
 
 import java.util.*;
 
@@ -13,8 +11,10 @@ public class PetTargetTable {
     private final HashMap<LivingEntity,Double> targetMap;
     private final Mob mob;
     private final Boolean active;
+    private final Player owner;
 
-    public PetTargetTable(Entity entity){
+    public PetTargetTable(Player owner, Entity entity){
+        this.owner = owner;
         targetMap = new HashMap<>();
         if(entity instanceof Mob){
             mob = (Mob) entity;
@@ -68,7 +68,7 @@ public class PetTargetTable {
     }
 
     private boolean canDamage(Entity entity){
-        if(entity.equals(mob)){
+        if(entity.equals(mob) || entity.equals(owner)){
             return false;
         }
         if(entity instanceof LivingEntity livingEntity){

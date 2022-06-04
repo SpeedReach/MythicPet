@@ -35,7 +35,7 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
 
     public PlayerPetProfile(UUID uuid) {
         super(uuid);
-        petInventory = MythicPets.inst().getSettings().createPetInventory(uuid);
+        petInventory = Settings.createPetInventory(uuid);
         player = Bukkit.getPlayer(uuid);
     }
 
@@ -70,19 +70,25 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
         Player player = Bukkit.getPlayer(uuid);
 
         SpawnResult spawnResult = pet.spawn(player);
-        if(spawnResult.equals(SpawnResult.SUCCESS)){
-            player.sendMessage(Message.Spawned.replace("#pet_name#",pet.getPetType().getDisplayName()));
-            currentPet = pet;
-        }
-        else {
-            player.sendMessage("Failed spawn because of "+spawnResult.name());
+
+        switch (spawnResult){
+            case SUCCESS -> {
+                player.sendMessage(Message.Spawned.replace("#pet_name#",pet.getPetType().getDisplayName()));
+                currentPet = pet;
+            }
+            case PET_NOT_EXIST -> {
+                player.sendMessage("Can't find pet with id "+pet.getPetID());
+            }
+            case MOB_NOT_EXISTS -> {
+                player.sendMessage("Can't find the mythicmob for this pet");
+            }
         }
     }
 
     public void addExp(int amount){
         if(currentPet == null) return;
         Pet pet = currentPet;
-        if(MythicPets.mmoItems){
+        if(false){
             double multiplier = net.Indyuce.mmoitems.api.player.PlayerData.get(uuid).getStats().getStat(MythicPets.inst().mmoitemsLoader.mmo_pet_exp_multiplier);
             amount = (int)(amount*(1+0.01*(multiplier)));
         }
@@ -108,6 +114,10 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
             }
         }
         return Optional.ofNullable(currentPet);
+    }
+
+    public Pet getCurrentPetWithOutCheck(){
+        return currentPet;
     }
 
 
@@ -152,7 +162,7 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
         }
         if(!MythicPets.over17){
             if(petStringInventory == null) petStringInventory = new HashMap<>();
-            petInventory = MythicPets.inst().getSettings().createPetInventory(uuid);
+            petInventory = Settings.createPetInventory(uuid);
             for(int i=0;i<petInventory.getSize();i++){
                 petInventory.setItem(i,ItemStackBase64.getItem(petStringInventory.get(i)));
             }
@@ -163,7 +173,7 @@ public class PlayerPetProfile extends PlayerData implements QuitProcessable, Pos
         return petInventory;
     }
 
-    public void removePet(Pet pet){
+    public void removePet(PetImpl pet){
         if(hasActive()){
             if(currentPet.equals(pet)){
                 despawnPet();

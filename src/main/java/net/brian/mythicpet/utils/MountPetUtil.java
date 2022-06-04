@@ -16,6 +16,11 @@ public class MountPetUtil {
 
 
     public static void mountPet(Player passenger,Entity petEntity,String type){
+        if(MythicPets.worldGuard && !MythicPets.inst().worldGuardFlag.canRide(passenger.getLocation())){
+            passenger.sendMessage("WorldGuard Blocking Pet Mounting for this area");
+            return;
+        }
+
         if(!petEntity.getPassengers().contains(passenger)){
             if(MythicPets.hasModelEngine()){
                 ModeledEntity modeledEntity = ModelEngineAPI.api.getModelManager().getModeledEntity(petEntity.getUniqueId());

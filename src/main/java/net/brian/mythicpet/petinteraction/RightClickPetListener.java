@@ -2,6 +2,7 @@ package net.brian.mythicpet.petinteraction;
 
 import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.api.PetUtils;
+import net.brian.mythicpet.config.InteractionGUIConfig;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -15,7 +16,7 @@ public class RightClickPetListener implements Listener {
 
     @EventHandler
     public void onRightClick(PlayerInteractEntityEvent event){
-        if(!MythicPets.getInteractionGUIConfig().isEnabled()){
+        if(!InteractionGUIConfig.isEnabled()){
             return;
         }
         if(event.getPlayer().isSneaking()){

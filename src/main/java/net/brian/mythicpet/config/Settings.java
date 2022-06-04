@@ -11,18 +11,17 @@ import java.util.UUID;
 
 public class Settings {
 
-    public Settings(){
-        setUp();
-    }
+
     public static boolean Mysql;
     public static boolean HealOnlevelUp;
     public static int DefaultPages;
     public static boolean FollowModeDamage;
-    private int inventoryRows;
+    private static int inventoryRows;
 
-    private boolean inventoryEnabled = false;
+    private static boolean inventoryEnabled = false;
 
-    public void setUp(){
+
+    public static void reload(){
         MythicPets.inst().saveDefaultConfig();
         MythicPets.inst().reloadConfig();
         FileConfiguration config = MythicPets.inst().getConfig();
@@ -36,7 +35,7 @@ public class Settings {
     }
 
 
-    public Inventory createPetInventory(UUID uuid){
+    public static Inventory createPetInventory(UUID uuid){
         String name = Message.PetInventoryTitle;
         if(MythicPets.placeHolderAPI){
             Player player = Bukkit.getPlayer(uuid);
@@ -47,7 +46,7 @@ public class Settings {
         return Bukkit.createInventory(null,inventoryRows*9,name);
     }
 
-    public boolean inventoryEnabled(){
+    public static boolean inventoryEnabled(){
         return inventoryEnabled;
     }
 

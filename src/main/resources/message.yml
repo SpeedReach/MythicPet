@@ -65,4 +65,9 @@ SystemIcon:
   BackGround:
     Material: GRAY_STAINED_GLASS_PANE
     Display: ""
+  Disabled:
+    Material: BARRIER
+    Display: "Disabled Pet"
+    Lore:
+      - "Can't find pet."
 

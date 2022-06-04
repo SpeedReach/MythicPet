@@ -3,6 +3,7 @@ package net.brian.mythicpet.storage;
 import net.brian.mythicpet.MythicPets;
 import net.brian.mythicpet.api.Pet;
 import net.brian.mythicpet.config.Message;
+import net.brian.mythicpet.pets.PetImpl;
 import net.brian.mythicpet.player.Mode;
 import net.brian.mythicpet.player.PlayerPetProfile;
 import org.bukkit.entity.Player;
@@ -10,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class StorageListener implements Listener {
@@ -62,7 +64,7 @@ public class StorageListener implements Listener {
                 int clicked = PetStorage.getSlot(slot, storage.page);
                 if (clicked != -1) {
                     if(data.pets.size()>clicked){
-                        Pet clickedPet = data.pets.get(clicked);
+                        PetImpl clickedPet = data.pets.get(clicked);
                         if(storage.editMode){
                             if(!clickedPet.getPetType().canEdit()){
                                 event.getWhoClicked().sendMessage(Message.CannotEdit);
@@ -82,12 +84,11 @@ public class StorageListener implements Listener {
                             }
                         }
                         else if(event.isLeftClick()){
-                            data.getCurrentPet().ifPresentOrElse(pet -> {
+                            Optional<Pet> currentPet = data.getCurrentPet();
+                            if(currentPet.isPresent() && currentPet.get().equals(clickedPet)){
                                 data.despawnPet();
-                                if(!pet.equals(clickedPet)){
-                                    data.spawnPet(clicked);
-                                }
-                            },()-> data.spawnPet(clicked));
+                            }
+                            data.spawnPet(clicked);
                             event.getWhoClicked().closeInventory();
                         }
                     }
