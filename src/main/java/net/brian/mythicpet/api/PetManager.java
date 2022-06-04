@@ -11,8 +11,6 @@ import java.util.UUID;
 
 public interface PetManager {
 
-
-
     Optional<MythicPet> getMythicPet(String id);
 
     Set<String> getPetKeys();

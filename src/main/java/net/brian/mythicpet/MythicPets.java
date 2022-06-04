@@ -44,9 +44,6 @@ import java.util.logging.Logger;
 public final class MythicPets extends JavaPlugin {
 
     private static MythicPets plugin;
-    public static Logger logger = Logger.getLogger("MythicPet");
-    public static SystemIcon systemIcon;
-    private static InteractionGUIConfig interactionGUIConfig;
     private static InteractionGUIService interactionGUIService;
     public static boolean worldGuard = false;
     public WorldGuardSupport worldGuardFlag;
@@ -139,12 +136,6 @@ public final class MythicPets extends JavaPlugin {
             profile.pets.forEach(Pet::refreshUpstream);
         }
     }
-
-
-    public static InteractionGUIConfig getInteractionGUIConfig() {
-        return interactionGUIConfig;
-    }
-
 
     public void loadManagers(){
         PetMovement movement = new PetMovement();

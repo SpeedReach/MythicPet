@@ -64,8 +64,6 @@ net\brian\mythicpet\command\commands\ModeCommand.class
 net\brian\mythicpet\compatible\mythicmobs\latest\target\PetTarget.class
 net\brian\mythicpet\compatible\mythicmobs\legacy\drops\PetExperienceDrop.class
 net\brian\mythicpet\compatible\libdisguise\DisguiseListener.class
-net\brian\mythicpet\event\PetSpawnEvent.class
-net\brian\mythicpet\event\PetLevelUpEvent.class
 net\brian\mythicpet\api\SpawnResult.class
 net\brian\mythicpet\utils\Pair.class
 net\brian\mythicpet\compatible\mythicmobs\latest\LatestMythicLoader.class
@@ -73,6 +71,7 @@ net\brian\mythicpet\compatible\mythicmobs\legacy\drops\PetDrop.class
 net\brian\mythicpet\config\Settings.class
 net\brian\mythicpet\utils\SkullBuilder.class
 net\brian\mythicpet\listener\RedeemPet.class
+net\brian\mythicpet\api\event\PetSpawnEvent.class
 net\brian\mythicpet\compatible\placeholder\PlaceholderManager.class
 net\brian\mythicpet\legacy\Pet.class
 net\brian\mythicpet\utils\AddPetStatus.class
@@ -89,6 +88,7 @@ net\brian\mythicpet\compatible\mythicmobs\legacy\LegacyMythicLoader.class
 net\brian\mythicpet\compatible\mythicmobs\latest\conditions\PetModeCondition.class
 net\brian\mythicpet\pets\PetImpl.class
 net\brian\mythicpet\listener\PetActions.class
+net\brian\mythicpet\api\event\PetLevelUpEvent.class
 net\brian\mythicpet\utils\pattern\RainbowPattern.class
 net\brian\mythicpet\storage\PetStorage.class
 net\brian\mythicpet\utils\ItemStackBase64.class

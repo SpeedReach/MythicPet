@@ -45,12 +45,7 @@ public class InteractionGUIService implements Listener {
                         else event.getWhoClicked().sendMessage(Message.CantRide);
                     }
                     else if(slot == 40){
-                        if(!MythicPets.over17){
-                            event.getWhoClicked().openInventory(petProfile.getPetInventory());
-                        }
-                        else{
-                            event.getWhoClicked().sendMessage("此分流無法使用寵物背包");
-                        }
+                        event.getWhoClicked().openInventory(petProfile.getPetInventory());
                     }
                     else if(slot == 43){
                         petProfile.despawnPet();
